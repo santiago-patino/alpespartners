@@ -1,7 +1,7 @@
-""" Repositorios para el manejo de persistencia de objetos de dominio en la capa de infrastructura del dominio de vuelos
+""" Repositorios para el manejo de persistencia de objetos de dominio en la capa de infrastructura del dominio de campañas
 
 En este archivo usted encontrará las diferentes repositorios para
-persistir objetos dominio (agregaciones) en la capa de infraestructura del dominio de vuelos
+persistir objetos dominio (agregaciones) en la capa de infraestructura del dominio de campañas
 
 """
 
@@ -63,7 +63,7 @@ class RepositorioCampañasSQLite(RepositorioCampañas):
     def agregar(self, campaña: Campaña):
         campaña_dto = self.fabrica_campañas.crear_objeto(campaña, MapeadorCampaña())
         db.session.add(campaña_dto)
-        db.session.commit()
+        #db.session.commit()
 
     def actualizar(self, campaña: Campaña):
         # TODO

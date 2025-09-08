@@ -28,7 +28,7 @@ class MapeadorCampañaDTOJson(AppMap):
             )
 
         # Participantes
-        participantes_dto: list[ParticipantesDTO] = []
+        participantes_dto: list[ParticipantDTO] = []
         for part in externo.get("participantes", []):
             participantes_dto.append(self._procesar_participante(part))
         

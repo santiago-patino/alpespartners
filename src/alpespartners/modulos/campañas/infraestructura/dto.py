@@ -1,7 +1,7 @@
-"""DTOs para la capa de infrastructura del dominio de vuelos
+"""DTOs para la capa de infrastructura del dominio de campañas
 
 En este archivo usted encontrará los DTOs (modelos anémicos) de
-la infraestructura del dominio de vuelos
+la infraestructura del dominio de campañas
 
 """
 

@@ -1,4 +1,4 @@
-""" Mapeadores para la capa de infrastructura del dominio de vuelos
+""" Mapeadores para la capa de infrastructura del dominio de campañas
 
 En este archivo usted encontrará los diferentes mapeadores
 encargados de la transformación entre formatos de dominio y DTOs
@@ -11,7 +11,7 @@ from alpespartners.modulos.campañas.dominio.objetos_valor import (
     Codigo, Nombre, TipoCampaña, EstadoCampaña, Dinero, TipoParticipante
 )
 from .dto import Campaña as CampañaDTO, Participante as ParticipanteDTO
-from alpespartners.modulos.campañas.aplicacion.dto import CampañaDTO as CampañaDTODomain, ParticipanteDTO as ParticipanteDTODomain
+# from alpespartners.modulos.campañas.aplicacion.dto import CampañaDTO, ParticipanteDTO
 
 from typing import Union, Optional
 from datetime import datetime
@@ -21,9 +21,9 @@ from enum import Enum
 class MapeadorCampaña(Mapeador):
     _FORMATO_FECHA = "%Y-%m-%dT%H:%M:%SZ"
     
-    def orm_a_dto(self, orm: Campaña) -> CampañaDTODomain:
+    def orm_a_dto(self, orm: Campaña) -> CampañaDTO:
         # Extraemos solo los campos relevantes del ORM
-        return CampañaDTODomain(
+        return CampañaDTO(
             id=orm.id,
             nombre=orm.nombre,
             tipo=orm.tipo,
@@ -34,7 +34,7 @@ class MapeadorCampaña(Mapeador):
             divisa=orm.divisa,
             marca_id=orm.marca_id,
             participantes=[
-                ParticipanteDTODomain(
+                ParticipanteDTO(
                     id=p.id,
                     tipo=p.tipo,
                     nombre=p.nombre,

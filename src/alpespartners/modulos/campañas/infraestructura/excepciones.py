@@ -1,7 +1,7 @@
-""" Excepciones para la capa de infrastructura del dominio de vuelos
+""" Excepciones para la capa de infrastructura del dominio de campañas
 
 En este archivo usted encontrará los Excepciones relacionadas
-a la capa de infraestructura del dominio de vuelos
+a la capa de infraestructura del dominio de campañas
 
 """
 

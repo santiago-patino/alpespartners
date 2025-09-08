@@ -6,6 +6,8 @@ from alpespartners.modulos.campañas.infraestructura.repositorios import \
     RepositorioCampañas
 from alpespartners.seedwork.aplicacion.servicios import Servicio
 
+from alpespartners.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+
 from .dto import CampañaDTO
 from .mapeadores import MapeadorCampaña
 
@@ -26,9 +28,13 @@ class ServicioCampaña(Servicio):
 
     def crear_campaña(self, campaña_dto: CampañaDTO) -> CampañaDTO:
         campaña: Campaña = self.fabrica_campañas.crear_objeto(campaña_dto, MapeadorCampaña())
-
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioCampañas)
-        repositorio.agregar(campaña)
+        campaña.crear_campaña(campaña)
+        
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioCampañas.__class__)
+        
+        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, campaña)
+        UnidadTrabajoPuerto.savepoint()
+        UnidadTrabajoPuerto.commit()
 
         return self.fabrica_campañas.crear_objeto(campaña, MapeadorCampaña())
 

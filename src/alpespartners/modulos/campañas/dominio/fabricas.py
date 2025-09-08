@@ -1,7 +1,7 @@
-""" Fábricas para la creación de objetos del dominio de vuelos
+""" Fábricas para la creación de objetos del dominio de campañas
 
 En este archivo usted encontrará las diferentes fábricas para crear
-objetos complejos del dominio de vuelos
+objetos complejos del dominio de campañas
 
 """
 

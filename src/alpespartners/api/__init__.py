@@ -1,36 +1,52 @@
 import os
 
-from flask import Flask, jsonify, redirect, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect, jsonify, session
 from flask_swagger import swagger
 
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+def registrar_handlers():
+    import alpespartners.modulos.campañas.aplicacion
+
 def importar_modelos_alchemy():
     import alpespartners.modulos.campañas.infraestructura.dto
 
-def create_app(configuracion=None):
+def comenzar_consumidor():
+    
+
+    import threading
+    import alpespartners.modulos.campañas.infraestructura.consumidores as campañas
+
+    # Suscripción a eventos
+    threading.Thread(target=campañas.suscribirse_a_eventos).start()
+
+    # Suscripción a comandos
+    threading.Thread(target=campañas.suscribirse_a_comandos).start()
+
+def create_app(configuracion={}):
     # Init la aplicacion de Flask
     app = Flask(__name__, instance_relative_config=True)
-
-    if configuracion is not None and configuracion["TESTING"]:
-        app.config['SQLALCHEMY_DATABASE_URI'] =\
-            'sqlite:///' + configuracion["DATABASE"]
     
-    # Configuracion de BD
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] =\
+    app.config['SQLALCHEMY_DATABASE_URI'] =\
             'sqlite:///' + os.path.join(basedir, 'database.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    app.secret_key = '9d58f98f-3ae8-4149-a09f-3a8c2012e32c'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['TESTING'] = configuracion.get('TESTING')
 
      # Inicializa la DB
     from alpespartners.config.db import init_db, db
     
     init_db(app)
     importar_modelos_alchemy()
+    registrar_handlers()
 
     with app.app_context():
         db.create_all()
+        if not app.config.get('TESTING'):
+            comenzar_consumidor()
 
      # Importa Blueprints
     from . import campañas

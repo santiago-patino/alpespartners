@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
 import alpespartners.modulos.campañas.dominio.objetos_valor as ov
+from alpespartners.modulos.campañas.dominio.eventos import CampañaCreada
 from alpespartners.seedwork.dominio.entidades import Locacion, AgregacionRaiz, Entidad
 from datetime import datetime
 from decimal import Decimal
@@ -39,3 +40,11 @@ class Campaña(AgregacionRaiz):
     presupuesto: ov.Dinero | None = None
     marca_id: ov.Codigo = field(default_factory=ov.Codigo)
     participantes: list[Participante] = field(default_factory=list)
+    
+    def crear_campaña(self, campaña: Campaña):
+        self.id_campaña = campaña.id
+        self.id_marca = campaña.marca_id
+        self.estado = campaña.estado
+        self.fecha_inicio = campaña.fecha_inicio
+        
+        self.agregar_evento(CampañaCreada(id_campaña=self.id_campaña, id_marca=self.id_marca, estado=self.estado, fecha_inicio=self.fecha_inicio))
