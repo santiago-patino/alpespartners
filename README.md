@@ -58,7 +58,7 @@ flask --app src/alpespartners/api --debug run
 
 Los siguientes JSON pueden ser usados para probar el API:
 
-### Reservar
+### Crear Campaña
 
 - **Endpoint**: `/campaña`
 - **Método**: `POST`
