@@ -10,8 +10,8 @@ from alpespartners.modulos.campañas.dominio.entidades import Campaña, Particip
 from alpespartners.modulos.campañas.dominio.objetos_valor import (
     Codigo, Nombre, TipoCampaña, EstadoCampaña, Dinero, TipoParticipante
 )
-from .dto import Campaña, Participante
-from alpespartners.modulos.campañas.aplicacion.dto import CampañaDTO, ParticipanteDTO
+from .dto import Campaña as CampañaDTO, Participante as ParticipanteDTO
+# from alpespartners.modulos.campañas.aplicacion.dto import CampañaDTO, ParticipanteDTO
 
 from typing import Union, Optional
 from datetime import datetime
