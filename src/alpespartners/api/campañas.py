@@ -9,7 +9,7 @@ from alpespartners.modulos.campañas.aplicacion.mapeadores import MapeadorCampa�
 
 bp = api.crear_blueprint('campañas', '/')
 
-@bp.route('/campañas', methods=('POST',))
+@bp.route('/campaña', methods=('POST',))
 def crear():
     try:
         campaña_dict = request.json
@@ -24,8 +24,8 @@ def crear():
     except ExcepcionDominio as e:
         return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')
 
-@bp.route('/campañas', methods=('GET',))
-@bp.route('/campañas/<id>', methods=('GET',))
+@bp.route('/campaña', methods=('GET',))
+@bp.route('/campaña/<id>', methods=('GET',))
 def dar_campaña(id=None):
     if id:
         sr = ServicioCampaña()
