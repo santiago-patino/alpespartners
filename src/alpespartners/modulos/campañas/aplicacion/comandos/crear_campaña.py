@@ -44,7 +44,7 @@ class CrearCampañaHandler(CrearCampañaBaseHandler):
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioCampañas.__class__)
 
         UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, campaña)
-        UnidadTrabajoPuerto.savepoint()
+        #UnidadTrabajoPuerto.savepoint()
         UnidadTrabajoPuerto.commit()
 
 

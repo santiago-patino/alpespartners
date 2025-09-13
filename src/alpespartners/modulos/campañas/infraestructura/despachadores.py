@@ -9,7 +9,14 @@ import datetime
 
 epoch = datetime.datetime.utcfromtimestamp(0)
 
+# def unix_time_millis(dt):
+#     return (dt - epoch).total_seconds() * 1000.0
+
 def unix_time_millis(dt):
+    if isinstance(dt, str):
+        # Convertir strings ISO 8601 tipo "2025-09-11T00:00:00Z"
+        dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%SZ")
+    epoch = datetime.datetime.utcfromtimestamp(0)
     return (dt - epoch).total_seconds() * 1000.0
 
 class Despachador:

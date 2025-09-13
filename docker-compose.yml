@@ -82,7 +82,7 @@ services:
       #Si se realiza una ejecución manual del microservicio desde el IDE, se debe usar esta línea:
       - advertisedListeners=external:pulsar://127.0.0.1:6650
       #Si se realiza una ejecución completa de todo (incluido el microservicio) con docker compose, se debería usar esta línea en lugar de la anterior para que se comunique con el contenedor broker dentro de una misma ejecución
-      # - advertisedListeners=external:pulsar://broker:6650
+      #- advertisedListeners=external:pulsar://broker:6650
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -93,9 +93,28 @@ services:
       - "8080:8080"
     command: bash -c "bin/apply-config-from-env.py conf/broker.conf
       &&  exec bin/pulsar broker"
+
+  # MySQL8
+  db:
+    image: mysql:8
+    hostname: mysqldb
+    container_name: mysqldb
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=partners
+      - MYSQL_ROOT_PASSWORD=adminadmin
+    profiles: ["db"]
+    networks:
+      - pulsar
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
   
   # Servicios de alpespartners
-  alpespartners:
+  campanas:
     container_name: alpespartners
     hostname: alpespartners
     image: alpespartners/flask 
@@ -112,3 +131,19 @@ services:
       - PULSAR_ADDRESS=broker
     ports:
       - "5001:5000"
+
+  # Servicio Cliente
+  partners:
+    container_name: partners
+    hostname: partners
+    image: alpespartners/partners 
+    profiles: ["partners"]
+    # depends_on:
+    #   - broker
+    environment:
+      - BROKER_HOST=broker
+      - DATABASE_URL="mysql+pymysql://root:adminadmin@localhost:3306/partners"
+    networks:
+      - pulsar
+    ports:
+      - "8000:8000"
