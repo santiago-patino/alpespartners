@@ -4,6 +4,8 @@ from partner.modulos.dominio.entidades import Partner, Affiliate, Influencer
 from partner.modulos.dominio.objetos_valor import Cedula, Email, Nombre, Rut 
 from partner.modulos.infraestructura.repositorios import RepositorioPartners
 from partner.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from partner.modulos.infraestructura.mapeadores import MapeadorPartner
+from .base import RegistrarPartnerBaseHandler
 from dataclasses import dataclass
 import datetime
 import time
@@ -14,7 +16,7 @@ class ComandoRegistrarPartner(Comando):
     tipo: str
     informacion_perfil: str
 
-class RegistrarPartnerHandler(ComandoHandler):
+class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
 
     def a_entidad(self, comando: ComandoRegistrarPartner) -> Partner:
         params = dict(
@@ -23,8 +25,6 @@ class RegistrarPartnerHandler(ComandoHandler):
             fecha_creacion = datetime.datetime.now(),
             fecha_actualizacion = datetime.datetime.now()
         )
-        
-        partner = Partner(**params)
 
         if comando.tipo == 'Influencer':
             partner = Influencer(**params)
@@ -33,13 +33,10 @@ class RegistrarPartnerHandler(ComandoHandler):
 
         return partner
         
-
     def handle(self, comando: ComandoRegistrarPartner):
         partner = self.a_entidad(comando)
-        repositorio = self.fabrica_partners.crear_objeto(RepositorioPartners.__class__)
-        
-        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, partner)
-        UnidadTrabajoPuerto.commit()
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPartners.__class__)
+        repositorio.agregar(partner)
 
 @comando.register(ComandoRegistrarPartner)
 def ejecutar_comando_registrar_partner(comando: ComandoRegistrarPartner):

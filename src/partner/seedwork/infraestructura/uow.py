@@ -108,7 +108,7 @@ def registrar_unidad_de_trabajo(serialized_obj):
 
 def flask_uow():
     from flask import session
-    from cliente.config.uow import UnidadTrabajoSQLAlchemy, UnidadTrabajoPulsar
+    from partner.config.uow import UnidadTrabajoSQLAlchemy, UnidadTrabajoPulsar
     if session.get('uow'):
         return session['uow']
 

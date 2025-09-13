@@ -5,7 +5,8 @@ import aiopulsar
 import asyncio
 from pulsar.schema import *
 from partner.seedwork.infraestructura import utils
-
+from partner.modulos.aplicacion.comandos.registrar_partner import ComandoRegistrarPartner
+from partner.seedwork.aplicacion.comandos import ejecutar_commando
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
     try:
@@ -21,6 +22,14 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     print(mensaje)
                     datos = mensaje.value()
                     print(f'Evento recibido: {datos}')
+                    
+                    if topico == "evento-partners":
+                        print("Evento execute")
+                        #await manejar_evento_partner(datos)
+                    elif topico == "comando-registrar-partner":
+                        comando = ComandoRegistrarPartner(datos.data.nombre, datos.data.tipo, datos.data.informacion_perfil)
+                        ejecutar_commando(comando)
+                        
                     await consumidor.acknowledge(mensaje)    
 
     except:

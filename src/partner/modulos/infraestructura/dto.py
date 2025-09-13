@@ -5,7 +5,7 @@ import enum
 
 class TipoPartner(enum.Enum):
     influencer = "influencer"
-    empresa = "empresa"
+    affiliate = "affiliate"
 
 class Partner(Base):
     __tablename__ = "partners"
