@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 class Partner(Entidad):
     nombre: str = ""
     informacion_perfil: str = ""
+    tipo: str = ""
 
 @dataclass
 class Affiliate(Partner, AgregacionRaiz):
