@@ -9,11 +9,9 @@ from .dto import Partner as PartnerDTO
 from uuid import UUID
 
 class RepositorioPartnersSQLAlchemy(RepositorioPartners):
-    
-    db = next(get_db())
 
     def __init__(self):
-        self._fabrica_partners: FabricaVuelos = FabricaPartners()
+        self._fabrica_partners: FabricaPartners = FabricaPartners()
 
     @property
     def fabrica_partners(self):

@@ -103,7 +103,7 @@ services:
       - SYS_NICE
     restart: always
     environment:
-      - MYSQL_DATABASE=partners
+      - MYSQL_DATABASE=alpespartners
       - MYSQL_ROOT_PASSWORD=adminadmin
     profiles: ["db"]
     networks:
