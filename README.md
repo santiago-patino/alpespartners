@@ -115,6 +115,21 @@ Genera el comando hacia el topico "comando-registrar-partner". El cual es proces
 }
 ```
 
+### Crear Partner BFF
+
+Genera el comando hacia el topico "comando-registrar-evento-conversion". El cual es procesado si el servicio traking esta activo
+
+- **Endpoint**: `/registrar-evento`
+- **Método**: `POST`
+- **Headers**: `Content-Type='aplication/json'`
+
+```json
+{
+    "id_partner": "1huhaskjhasd",
+    "id_campana": "213uhuihaujjjkjj"
+}
+```
+
 
 ### Correr docker-compose usando profiles
 ```bash
