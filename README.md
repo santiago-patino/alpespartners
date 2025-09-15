@@ -115,7 +115,7 @@ Genera el comando hacia el topico "comando-registrar-partner". El cual es proces
 }
 ```
 
-### Crear Partner BFF
+### Registrar Evento Conversion
 
 Genera el comando hacia el topico "comando-registrar-evento-conversion". El cual es procesado si el servicio traking esta activo
 
