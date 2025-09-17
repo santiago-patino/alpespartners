@@ -1,7 +1,7 @@
 from pulsar.schema import *
-from partner.seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
-from partner.seedwork.infraestructura.utils import time_millis
-from partner.modulos.infraestructura.v1 import TipoPartner
+from ....seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
+from ....seedwork.infraestructura.utils import time_millis
+from ....modulos.infraestructura.v1 import TipoPartner
 import uuid
 
 

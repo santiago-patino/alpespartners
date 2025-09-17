@@ -1,6 +1,6 @@
-from traking.seedwork.infraestructura.uow import UnidadTrabajo, Batch
+from ..seedwork.infraestructura.uow import UnidadTrabajo, Batch
 from pydispatch import dispatcher
-from traking.config.db import SessionLocal
+from ..config.db import SessionLocal
 
 import logging
 import traceback

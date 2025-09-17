@@ -1,10 +1,10 @@
-from campaign.seedwork.aplicacion.comandos import Comando, ComandoHandler
-from campaign.seedwork.aplicacion.comandos import ejecutar_commando as comando
-from campaign.modulos.dominio.entidades import Campaign, Participante
-from campaign.modulos.infraestructura.repositorios import RepositorioCampaigns
-from campaign.seedwork.infraestructura.uow import UnidadTrabajoPuerto
-from campaign.config.uow import UnidadTrabajoSQLAlchemy
-from campaign.modulos.infraestructura.mapeadores import MapeadorCampaign
+from ....seedwork.aplicacion.comandos import Comando, ComandoHandler
+from ....seedwork.aplicacion.comandos import ejecutar_commando as comando
+from ....modulos.dominio.entidades import Campaign, Participante
+from ....modulos.infraestructura.repositorios import RepositorioCampaigns
+from ....seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from ....config.uow import UnidadTrabajoSQLAlchemy
+from ....modulos.infraestructura.mapeadores import MapeadorCampaign
 from .base import RegistrarCampaignBaseHandler
 from dataclasses import dataclass
 import datetime 

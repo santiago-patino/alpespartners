@@ -1,6 +1,6 @@
 
 from sqlalchemy import Column, Integer, String, Enum
-from partner.config.db import Base
+from ...config.db import Base
 import enum
 import uuid
 

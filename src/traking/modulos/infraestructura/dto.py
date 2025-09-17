@@ -1,6 +1,6 @@
 
 from sqlalchemy import Column, Integer, String, Enum, DateTime, BigInteger
-from traking.config.db import Base
+from ...config.db import Base
 from datetime import datetime
 import uuid
 

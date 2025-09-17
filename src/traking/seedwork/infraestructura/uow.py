@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from traking.seedwork.dominio.entidades import AgregacionRaiz
+from ...seedwork.dominio.entidades import AgregacionRaiz
 from pydispatch import dispatcher
 import logging
 import traceback

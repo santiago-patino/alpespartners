@@ -1,10 +1,10 @@
-from traking.seedwork.aplicacion.comandos import Comando, ComandoHandler
-from traking.seedwork.aplicacion.comandos import ejecutar_commando as comando
-from traking.modulos.dominio.entidades import Evento 
-from traking.modulos.infraestructura.repositorios import RepositorioEventos
-from traking.seedwork.infraestructura.uow import UnidadTrabajoPuerto
-from traking.config.uow import UnidadTrabajoSQLAlchemy
-from traking.modulos.infraestructura.mapeadores import MapeadorEvento
+from ....seedwork.aplicacion.comandos import Comando, ComandoHandler
+from ....seedwork.aplicacion.comandos import ejecutar_commando as comando
+from ....modulos.dominio.entidades import Evento
+from ....modulos.infraestructura.repositorios import RepositorioEventos
+from ....seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from ....config.uow import UnidadTrabajoSQLAlchemy
+from ....modulos.infraestructura.mapeadores import MapeadorEvento
 from .base import RegistrarEventoBaseHandler
 from dataclasses import dataclass
 import datetime

@@ -1,26 +1,22 @@
 from fastapi import FastAPI
-from partner.config.api import app_configs
-from partner.config.db import init_db
-from partner.api.v1.router import router as v1
+from .config.api import app_configs
+from .config.db import init_db
+from .api.v1.router import router as v1
 from contextlib import asynccontextmanager
 
-from partner.modulos.infraestructura.consumidores import suscribirse_a_topico
-from partner.modulos.infraestructura.v1.eventos import EventoPartner, PartnerRegistrado, TipoPartner
-from partner.modulos.infraestructura.v1.comandos import ComandoRegistrarPartner, RegistrarPartner
-from partner.modulos.infraestructura.v1 import TipoPartner
-from partner.modulos.infraestructura.despachadores import Despachador
-from partner.seedwork.infraestructura import utils
+from .modulos.infraestructura.consumidores import suscribirse_a_topico
+from .modulos.infraestructura.v1.eventos import EventoPartner, PartnerRegistrado, TipoPartner
+from .modulos.infraestructura.v1.comandos import ComandoRegistrarPartner, RegistrarPartner
+from .modulos.infraestructura.v1 import TipoPartner
+from .modulos.infraestructura.despachadores import Despachador
+from .seedwork.infraestructura import utils
 
 import asyncio
 
-def importar_modelos_alchemy():
-    import partner.modulos.infraestructura.dto
-    
 tasks = []
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    importar_modelos_alchemy()
     init_db()
     
     task1 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))

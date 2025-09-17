@@ -1,4 +1,4 @@
-from campaign.seedwork.aplicacion.queries import Query, QueryHandler, ResultadoQuery
+from ....seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
 import uuid
 
 class ObtenerTodosPartners(Query):
@@ -6,5 +6,5 @@ class ObtenerTodosPartners(Query):
 
 class ObtenerTodosPartnersHandler(QueryHandler):
 
-    def handle() -> ResultadoQuery:
+    def handle() -> QueryResultado:
         ...

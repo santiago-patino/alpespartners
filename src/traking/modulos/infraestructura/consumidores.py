@@ -4,9 +4,9 @@ import pulsar, _pulsar
 import aiopulsar
 import asyncio
 from pulsar.schema import *
-from traking.seedwork.infraestructura import utils
-from traking.modulos.aplicacion.comandos.registrar_evento import ComandoRegistrarEvento
-from traking.seedwork.aplicacion.comandos import ejecutar_commando
+from ...seedwork.infraestructura import utils
+from ...modulos.aplicacion.comandos.registrar_evento import ComandoRegistrarEvento
+from ...seedwork.aplicacion.comandos import ejecutar_commando
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
     try:

@@ -1,7 +1,7 @@
-from traking.modulos.dominio.entidades import Evento
-from traking.modulos.dominio.repositorios import RepositorioEventos
-from traking.modulos.dominio.fabricas import FabricaEventos
-from traking.config.db import get_db, SessionLocal
+from ...modulos.dominio.entidades import Evento
+from ...modulos.dominio.repositorios import RepositorioEventos
+from ...modulos.dominio.fabricas import FabricaEventos
+from ...config.db import get_db, SessionLocal
 
 from .mapeadores import MapeadorEvento
 from .dto import Evento as EventoDTO
@@ -15,7 +15,7 @@ class RepositorioEventosSQLAlchemy(RepositorioEventos):
         
     @property
     def db(self):
-        from traking.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+        from ...seedwork.infraestructura.uow import UnidadTrabajoPuerto
         return UnidadTrabajoPuerto.get_uow().db
 
     @property

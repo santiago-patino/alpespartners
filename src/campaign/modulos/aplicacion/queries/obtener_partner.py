@@ -1,9 +1,9 @@
-from campaign.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
-from campaign.seedwork.aplicacion.queries import ejecutar_query as query
+from ....seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
+from ....seedwork.aplicacion.queries import ejecutar_query as query
 from dataclasses import dataclass
 from .base import ObtenerCampaignBaseHandler
-from campaign.modulos.infraestructura.repositorios import RepositorioCampaigns
-from campaign.modulos.infraestructura.mapeadores import MapeadorCampaign
+from ....modulos.infraestructura.repositorios import RepositorioCampaigns
+from ....modulos.infraestructura.mapeadores import MapeadorCampaign
 import uuid
 
 @dataclass

@@ -5,7 +5,7 @@ En este archivo usted encontrará las entidades del dominio de cliente
 """
 
 from datetime import datetime
-from campaign.seedwork.dominio.entidades import Entidad, AgregacionRaiz
+from ...seedwork.dominio.entidades import Entidad, AgregacionRaiz
 from dataclasses import dataclass, field
 
 

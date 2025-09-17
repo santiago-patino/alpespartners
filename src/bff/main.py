@@ -1,15 +1,15 @@
 import json
-import asyncio
 from fastapi import FastAPI
 from pydantic_settings import BaseSettings
 from pydantic import BaseModel
 from typing import Any
 
-from .comandos import RegistrarCampaignPayload, ComandoRegistrarCampaign, RegistrarPartnerPayload, ComandoRegistrarPartner
-from .consumidores import suscribirse_a_topico
+from .comandos import RegistrarCampaignPayload, ComandoRegistrarCampaign, RegistrarPartnerPayload, \
+    ComandoRegistrarPartner
 from .despachadores import Despachador
 
 from . import utils
+
 
 class Config(BaseSettings):
     APP_VERSION: str = "1"
@@ -67,4 +67,8 @@ async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
     )
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-registrar-partner")
+    return {"status": "ok"}
+
+@app.get("/health")
+async def health_check():
     return {"status": "ok"}

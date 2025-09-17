@@ -1,6 +1,6 @@
-from campaign.seedwork.aplicacion.comandos import ComandoHandler
-from campaign.modulos.infraestructura.fabricas import FabricaRepositorio
-from campaign.modulos.dominio.fabricas import FabricaCampaigns
+from ....seedwork.aplicacion.comandos import ComandoHandler
+from ....modulos.infraestructura.fabricas import FabricaRepositorio
+from ....modulos.dominio.fabricas import FabricaCampaigns
 
 class ObtenerCampaignBaseHandler(ComandoHandler):
     def __init__(self):

@@ -1,7 +1,7 @@
 from pulsar.schema import *
 from dataclasses import dataclass, field
-from traking.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
-from traking.seedwork.infraestructura.utils import time_millis
+from ....seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
+from ....seedwork.infraestructura.utils import time_millis
 import uuid
 
 

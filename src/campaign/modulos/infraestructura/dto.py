@@ -1,7 +1,7 @@
 
 from sqlalchemy import Column, Integer, String, Enum, Float, ForeignKey, JSON
 from sqlalchemy.orm import relationship
-from campaign.config.db import Base
+from ...config.db import Base
 import enum
 import uuid
 

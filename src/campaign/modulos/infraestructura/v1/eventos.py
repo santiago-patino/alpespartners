@@ -1,6 +1,6 @@
 from pulsar.schema import *
-from campaign.seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
-from campaign.seedwork.infraestructura.utils import time_millis
+from ....seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
+from ....seedwork.infraestructura.utils import time_millis
 import uuid
 
 class Participante(Record):

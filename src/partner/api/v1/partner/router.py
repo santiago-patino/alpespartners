@@ -1,10 +1,10 @@
 from fastapi import APIRouter, status, BackgroundTasks
-from partner.modulos.aplicacion.comandos.registrar_partner import ComandoRegistrarPartner
-from partner.modulos.aplicacion.queries.obtener_partner import QueryObtenerPartner
-from partner.modulos.infraestructura.mapeadores import MapeadorPartner
-from partner.seedwork.presentacion.dto import RespuestaAsincrona
-from partner.seedwork.aplicacion.comandos import ejecutar_commando
-from partner.seedwork.aplicacion.queries import ejecutar_query
+from ....modulos.aplicacion.comandos.registrar_partner import ComandoRegistrarPartner
+from ....modulos.aplicacion.queries.obtener_partner import QueryObtenerPartner
+from ....modulos.infraestructura.mapeadores import MapeadorPartner
+from ....seedwork.presentacion.dto import RespuestaAsincrona
+from ....seedwork.aplicacion.comandos import ejecutar_commando
+from ....seedwork.aplicacion.queries import ejecutar_query
 
 from .dto import RegistrarPartner
 

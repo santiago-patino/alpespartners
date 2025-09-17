@@ -1,7 +1,7 @@
-from campaign.modulos.dominio.entidades import Campaign
-from campaign.modulos.dominio.repositorios import RepositorioCampaigns
-from campaign.modulos.dominio.fabricas import FabricaCampaigns
-from campaign.config.db import get_db, SessionLocal
+from ...modulos.dominio.entidades import Campaign
+from ...modulos.dominio.repositorios import RepositorioCampaigns
+from ...modulos.dominio.fabricas import FabricaCampaigns
+from ...config.db import get_db, SessionLocal
 
 from .mapeadores import MapeadorCampaign
 from .dto import Campaign as CampaignDTO
@@ -15,7 +15,7 @@ class RepositorioCampaignsSQLAlchemy(RepositorioCampaigns):
         
     @property
     def db(self):
-        from campaign.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+        from ...seedwork.infraestructura.uow import UnidadTrabajoPuerto
         return UnidadTrabajoPuerto.get_uow().db
 
     @property
