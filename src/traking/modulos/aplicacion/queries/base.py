@@ -1,6 +1,6 @@
-from traking.seedwork.aplicacion.comandos import ComandoHandler
-from traking.modulos.infraestructura.fabricas import FabricaRepositorio
-from traking.modulos.dominio.fabricas import FabricaEventos
+from ....seedwork.aplicacion.comandos import ComandoHandler
+from ....modulos.infraestructura.fabricas import FabricaRepositorio
+from ....modulos.dominio.fabricas import FabricaEventos
 
 class ObtenerEventoBaseHandler(ComandoHandler):
     def __init__(self):

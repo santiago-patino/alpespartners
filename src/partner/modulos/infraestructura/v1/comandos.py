@@ -1,8 +1,8 @@
 from pulsar.schema import *
 from dataclasses import dataclass, field
-from partner.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
-from partner.seedwork.infraestructura.utils import time_millis
-from partner.modulos.infraestructura.v1 import TipoPartner
+from ....seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
+from ....seedwork.infraestructura.utils import time_millis
+from ....modulos.infraestructura.v1 import TipoPartner
 import uuid
 
 

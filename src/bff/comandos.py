@@ -1,7 +1,9 @@
 from pulsar.schema import *
-from .utils import time_millis
+
 from enum import Enum
 import uuid
+
+from .utils import time_millis
 
 
 class RegistrarCampaignPayload(Record):

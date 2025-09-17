@@ -1,5 +1,5 @@
 import time
-import os
+import os, json
 import datetime
 import requests
 from fastavro.schema import parse_schema

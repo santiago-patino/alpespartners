@@ -1,6 +1,6 @@
-from partner.seedwork.aplicacion.comandos import ComandoHandler
-from partner.modulos.infraestructura.fabricas import FabricaRepositorio
-from partner.modulos.dominio.fabricas import FabricaPartners
+from ....seedwork.aplicacion.comandos import ComandoHandler
+from ....modulos.infraestructura.fabricas import FabricaRepositorio
+from ....modulos.dominio.fabricas import FabricaPartners
 
 class RegistrarPartnerBaseHandler(ComandoHandler):
     def __init__(self):

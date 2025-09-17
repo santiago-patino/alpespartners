@@ -1,7 +1,7 @@
 import pulsar
 from pulsar.schema import *
 
-from campaign.seedwork.infraestructura import utils
+from ...seedwork.infraestructura import utils
 
 class Despachador:
     def __init__(self):

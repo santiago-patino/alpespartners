@@ -7,9 +7,9 @@ objetos complejos del dominio de campañas
 
 from .entidades import Evento
 from .excepciones import TipoObjetoNoExisteEnDominioEventosExcepcion
-from traking.seedwork.dominio.repositorios import Mapeador
-from traking.seedwork.dominio.fabricas import Fabrica
-from traking.seedwork.dominio.entidades import Entidad
+from ...seedwork.dominio.repositorios import Mapeador
+from ...seedwork.dominio.fabricas import Fabrica
+from ...seedwork.dominio.entidades import Entidad
 from dataclasses import dataclass
 
 @dataclass

@@ -1,7 +1,7 @@
-from partner.modulos.dominio.entidades import Partner
-from partner.modulos.dominio.repositorios import RepositorioPartners
-from partner.modulos.dominio.fabricas import FabricaPartners
-from partner.config.db import get_db, SessionLocal
+from ...modulos.dominio.entidades import Partner
+from ...modulos.dominio.repositorios import RepositorioPartners
+from ...modulos.dominio.fabricas import FabricaPartners
+from ...config.db import get_db, SessionLocal
 
 from .mapeadores import MapeadorPartner
 from .dto import Partner as PartnerDTO
@@ -15,7 +15,7 @@ class RepositorioPartnersSQLAlchemy(RepositorioPartners):
         
     @property
     def db(self):
-        from partner.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+        from ...seedwork.infraestructura.uow import UnidadTrabajoPuerto
         return UnidadTrabajoPuerto.get_uow().db
 
     @property

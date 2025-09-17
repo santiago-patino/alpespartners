@@ -1,5 +1,5 @@
-from partner.seedwork.dominio.repositorios import Mapeador
-from partner.modulos.dominio.entidades import Partner, Affiliate, Influencer
+from ...seedwork.dominio.repositorios import Mapeador
+from ...modulos.dominio.entidades import Partner, Affiliate, Influencer
 # from partner.modulos.dominio.objetos_valor import (
 #     Codigo, Nombre, TipoCampaña, EstadoCampaña, Dinero, TipoParticipante
 # )

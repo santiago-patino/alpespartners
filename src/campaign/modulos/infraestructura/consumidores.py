@@ -4,9 +4,9 @@ import pulsar, _pulsar
 import aiopulsar
 import asyncio
 from pulsar.schema import *
-from campaign.seedwork.infraestructura import utils
-from campaign.modulos.aplicacion.comandos.registrar_campaign import ComandoRegistrarCampaign
-from campaign.seedwork.aplicacion.comandos import ejecutar_commando
+from ...seedwork.infraestructura import utils
+from ...modulos.aplicacion.comandos.registrar_campaign import ComandoRegistrarCampaign
+from ...seedwork.aplicacion.comandos import ejecutar_commando
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
     try:

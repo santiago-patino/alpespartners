@@ -1,9 +1,9 @@
-from partner.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
-from partner.seedwork.aplicacion.queries import ejecutar_query as query
+from ....seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
+from ....seedwork.aplicacion.queries import ejecutar_query as query
 from dataclasses import dataclass
 from .base import ObtenerPartnerBaseHandler
-from partner.modulos.infraestructura.repositorios import RepositorioPartners
-from partner.modulos.infraestructura.mapeadores import MapeadorPartner
+from ....modulos.infraestructura.repositorios import RepositorioPartners
+from ....modulos.infraestructura.mapeadores import MapeadorPartner
 import uuid
 
 @dataclass

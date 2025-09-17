@@ -1,6 +1,5 @@
-from traking.modulos.vuelos.dominio.eventos.reservas import EventoCreado
-from traking.seedwork.aplicacion.handlers import Handler
-from traking.modulos.infraestructura.despachadores import Despachador
+from ...seedwork.aplicacion.handlers import Handler
+from ...modulos.infraestructura.despachadores import Despachador
 
 class HandlerEventoDominio(Handler):
 

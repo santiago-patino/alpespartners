@@ -5,7 +5,7 @@ al dominio de campañas
 
 """
 
-from partner.seedwork.dominio.excepciones import ExcepcionFabrica
+from ...seedwork.dominio.excepciones import ExcepcionFabrica
 
 class TipoObjetoNoExisteEnDominioPartnersExcepcion(ExcepcionFabrica):
     def __init__(self, mensaje='No existe una fábrica para el tipo solicitado en el módulo de partners'):

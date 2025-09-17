@@ -1,11 +1,11 @@
-from partner.seedwork.aplicacion.comandos import Comando, ComandoHandler
-from partner.seedwork.aplicacion.comandos import ejecutar_commando as comando
-from partner.modulos.dominio.entidades import Partner, Affiliate, Influencer
-from partner.modulos.dominio.objetos_valor import Cedula, Email, Nombre, Rut 
-from partner.modulos.infraestructura.repositorios import RepositorioPartners
-from partner.seedwork.infraestructura.uow import UnidadTrabajoPuerto
-from partner.config.uow import UnidadTrabajoSQLAlchemy
-from partner.modulos.infraestructura.mapeadores import MapeadorPartner
+from ....seedwork.aplicacion.comandos import Comando, ComandoHandler
+from ....seedwork.aplicacion.comandos import ejecutar_commando as comando
+from ....modulos.dominio.entidades import Partner, Affiliate, Influencer
+from ....modulos.dominio.objetos_valor import Cedula, Email, Nombre, Rut
+from ....modulos.infraestructura.repositorios import RepositorioPartners
+from ....seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from ....config.uow import UnidadTrabajoSQLAlchemy
+from ....modulos.infraestructura.mapeadores import MapeadorPartner
 from .base import RegistrarPartnerBaseHandler
 from dataclasses import dataclass
 import datetime

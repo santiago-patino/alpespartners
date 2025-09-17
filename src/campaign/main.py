@@ -1,26 +1,23 @@
 from fastapi import FastAPI
-from campaign.config.api import app_configs
-from campaign.config.db import init_db
-from campaign.api.v1.router import router as v1
+from .config.api import app_configs
+from .config.db import init_db
+from .api.v1.router import router as v1
 from contextlib import asynccontextmanager
 
-from campaign.modulos.infraestructura.consumidores import suscribirse_a_topico
-from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistrado
-from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarCampaign, RegistrarCampaign, Participante
-from campaign.modulos.infraestructura.despachadores import Despachador
-from campaign.seedwork.infraestructura import utils
+from .modulos.infraestructura.consumidores import suscribirse_a_topico
+from .modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistrado
+from .modulos.infraestructura.v1.comandos import ComandoRegistrarCampaign, RegistrarCampaign, Participante
+from .modulos.infraestructura.despachadores import Despachador
+from .modulos.infraestructura import dto
+from .seedwork.infraestructura import utils
 
 import json
 import asyncio
 
-def importar_modelos_alchemy():
-    import campaign.modulos.infraestructura.dto
-    
 tasks = []
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    importar_modelos_alchemy()
     init_db()
     
     task1 = asyncio.ensure_future(suscribirse_a_topico("evento-campaigns", "sub-campaign", EventoCampaign))

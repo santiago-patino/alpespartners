@@ -1,5 +1,5 @@
-from campaign.seedwork.dominio.repositorios import Mapeador
-from campaign.modulos.dominio.entidades import Campaign, Participante
+from ...seedwork.dominio.repositorios import Mapeador
+from ...modulos.dominio.entidades import Campaign, Participante
 from .dto import Campaign as CampaignDTO
 
 from typing import Union, Optional

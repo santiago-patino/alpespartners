@@ -1,6 +1,6 @@
 from pulsar.schema import *
-from traking.seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
-from traking.seedwork.infraestructura.utils import time_millis
+from ....seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
+from ....seedwork.infraestructura.utils import time_millis
 import uuid
 
 

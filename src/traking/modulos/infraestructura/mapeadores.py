@@ -1,5 +1,5 @@
-from traking.seedwork.dominio.repositorios import Mapeador
-from traking.modulos.dominio.entidades import Evento
+from ...seedwork.dominio.repositorios import Mapeador
+from ...modulos.dominio.entidades import Evento
 from .dto import Evento as EventoDTO
 
 from typing import Union, Optional

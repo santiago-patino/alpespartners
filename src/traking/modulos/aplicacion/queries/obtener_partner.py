@@ -1,9 +1,10 @@
-from traking.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
-from traking.seedwork.aplicacion.queries import ejecutar_query as query
+from src.partner.modulos.aplicacion.queries.obtener_partner import QueryObtenerPartner
+from ....seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
+from ....seedwork.aplicacion.queries import ejecutar_query as query
 from dataclasses import dataclass
-from .base import ObtenerPartnerBaseHandler
-from traking.modulos.infraestructura.repositorios import RepositorioEventos
-from traking.modulos.infraestructura.mapeadores import MapeadorEvento
+from .base import ObtenerEventoBaseHandler
+from ....modulos.infraestructura.repositorios import RepositorioEventos
+from ....modulos.infraestructura.mapeadores import MapeadorEvento
 import uuid
 
 @dataclass

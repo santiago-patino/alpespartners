@@ -1,6 +1,6 @@
-from campaign.seedwork.infraestructura.uow import UnidadTrabajo, Batch
+from ..seedwork.infraestructura.uow import UnidadTrabajo, Batch
 from pydispatch import dispatcher
-from campaign.config.db import SessionLocal
+from ..config.db import SessionLocal
 
 import logging
 import traceback

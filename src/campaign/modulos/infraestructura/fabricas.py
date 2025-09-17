@@ -7,9 +7,9 @@ objetos complejos en la capa de infraestructura del dominio de campañas
 
 from dataclasses import dataclass
 
-from campaign.modulos.dominio.repositorios import RepositorioCampaigns
-from campaign.seedwork.dominio.fabricas import Fabrica
-from campaign.seedwork.dominio.repositorios import Repositorio
+from ...modulos.dominio.repositorios import RepositorioCampaigns
+from ...seedwork.dominio.fabricas import Fabrica
+from ...seedwork.dominio.repositorios import Repositorio
 
 from .excepciones import ExcepcionFabrica
 from .repositorios import RepositorioCampaignsSQLAlchemy
