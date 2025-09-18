@@ -30,3 +30,19 @@ class ComandoRegistrarCampaign(ComandoIntegracion):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+class CancelarCampaign(Record):
+    id = String()
+
+class ComandoCancelarCampaign(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CancelarCampaign")
+    datacontenttype = String()
+    service_name = String(default="campaign.aeroalpes")
+    data = CancelarCampaign
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

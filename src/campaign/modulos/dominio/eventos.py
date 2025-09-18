@@ -1,3 +1,9 @@
+from pulsar.schema import *
+from dataclasses import dataclass, field
+from campaign.seedwork.dominio.eventos import (EventoDominio)
+
+class EventoCampaign(EventoDominio):
+    ...
 
 class Participante(Record):
     id = String()
@@ -10,5 +16,5 @@ class CampaignRegistrada(Record):
     nombre = String()
     presupuesto = Float()
     divisa = String()
-    marca_id = Long()
-    participantes = Array(Participante())
+    marca_id = String()
+    participantes = String()

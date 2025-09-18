@@ -2,7 +2,7 @@ from campaign.seedwork.aplicacion.comandos import Comando, ComandoHandler
 from campaign.seedwork.aplicacion.comandos import ejecutar_commando as comando
 from campaign.modulos.dominio.entidades import Campaign, Participante
 from campaign.modulos.infraestructura.repositorios import RepositorioCampaigns
-from campaign.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from campaign.seedwork.infraestructura.uow import UnidadTrabajoPuerto, UnidadTrabajo
 from campaign.config.uow import UnidadTrabajoSQLAlchemy
 from campaign.modulos.infraestructura.mapeadores import MapeadorCampaign
 from .base import RegistrarCampaignBaseHandler
@@ -12,16 +12,12 @@ import time
 import json
 
 @dataclass
-class ComandoRegistrarCampaign(Comando):
-    nombre: str
-    presupuesto: float
-    divisa: str
-    marca_id: str
-    participantes: list[Participante]
+class ComandoCancelarCampaign(Comando):
+    id: str
 
-class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
+class CancelarCampaignHandler(RegistrarCampaignBaseHandler):
 
-    def a_entidad(self, comando: ComandoRegistrarCampaign) -> Campaign:
+    def a_entidad(self, comando: ComandoCancelarCampaign) -> Campaign:
         
         participantes_list = json.loads(comando.participantes) if comando.participantes else []
         
@@ -45,19 +41,19 @@ class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
 
         return campaign
         
-    def handle(self, comando: ComandoRegistrarCampaign):
-        campaign = self.a_entidad(comando)
-        campaign.crear_campaign(campaign)
+    def handle(self, comando: ComandoCancelarCampaign):
+        # campaign = self.a_entidad(comando)
+
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioCampaigns.__class__)
         
         uow = UnidadTrabajoSQLAlchemy()
         UnidadTrabajoPuerto.set_uow(uow)
         
         # Registrar batch y commit
-        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, campaign)
+        UnidadTrabajoPuerto.registrar_batch(repositorio.eliminar, comando.id)
         UnidadTrabajoPuerto.commit()
 
-@comando.register(ComandoRegistrarCampaign)
-def ejecutar_comando_registrar_campaign(comando: ComandoRegistrarCampaign):
-    handler = RegistrarCampaignHandler()
+@comando.register(ComandoCancelarCampaign)
+def ejecutar_comando_cancelar_campaign(comando: ComandoCancelarCampaign):
+    handler = CancelarCampaignHandler()
     handler.handle(comando)

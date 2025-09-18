@@ -39,6 +39,7 @@ class RepositorioCampaignsSQLAlchemy(RepositorioCampaigns):
         # TODO
         raise NotImplementedError
 
-    def eliminar(self, reserva_id: UUID):
-        # TODO
-        raise NotImplementedError
+    def eliminar(self, campaign_id: UUID):
+        campaign_dto = self.db.query(CampaignDTO).filter(CampaignDTO.id == campaign_id).first()
+        if campaign_dto:
+            self.db.delete(campaign_dto)
