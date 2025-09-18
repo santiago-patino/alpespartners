@@ -4,7 +4,7 @@ from enum import Enum
 import uuid
 
 
-class RegistrarCampaignPayload(Record):
+class RegistrarCampaign(Record):
     nombre = String()
     presupuesto = Float()
     divisa = String()
@@ -20,7 +20,7 @@ class ComandoRegistrarCampaign(Record):
     type = String(default="RegistrarCampaign")
     datacontenttype = String()
     service_name = String(default="campaign.aeroalpes")
-    data = RegistrarCampaignPayload
+    data = RegistrarCampaign
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,7 +31,7 @@ class TipoPartner(Enum):
     influencer = "Influencer"
 
 
-class RegistrarPartnerPayload(Record):
+class RegistrarPartner(Record):
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()
@@ -46,7 +46,7 @@ class ComandoRegistrarPartner(Record):
     type = String(default="RegistrarPartner")
     datacontenttype = String()
     service_name = String(default="partner.aeroalpes")
-    data = RegistrarPartnerPayload
+    data = RegistrarPartner
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

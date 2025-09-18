@@ -1,13 +1,78 @@
 from partner.seedwork.dominio.repositorios import Mapeador
 from partner.modulos.dominio.entidades import Partner, Affiliate, Influencer
-# from partner.modulos.dominio.objetos_valor import (
-#     Codigo, Nombre, TipoCampaña, EstadoCampaña, Dinero, TipoParticipante
-# )
+from partner.modulos.dominio.eventos import PartnerRegistrado, EventoPartner
 from .dto import TipoPartner, Partner as PartnerDTO
 
 from typing import Union, Optional
 from datetime import datetime
 from enum import Enum
+from campaign.seedwork.infraestructura import utils
+from .excepciones import NoExisteImplementacionParaTipoFabricaExcepcion
+
+class MapadeadorEventosPartner(Mapeador):
+
+    # Versiones aceptadas
+    versions = ('v1',)
+
+    LATEST_VERSION = versions[0]
+
+    def __init__(self):
+        self.router = {
+            PartnerRegistrado: self._entidad_a_partner_creado,
+            # ReservaAprobada: self._entidad_a_reserva_aprobada,
+            # ReservaCancelada: self._entidad_a_reserva_cancelada,
+            # ReservaPagada: self._entidad_a_reserva_pagada
+        }
+
+    def obtener_tipo(self) -> type:
+        return EventoReserva.__class__
+
+    def es_version_valida(self, version):
+        for v in self.versions:
+            if v == version:
+                return True
+        return False
+
+    def _entidad_a_partner_creado(self, entidad: PartnerRegistrado, version=LATEST_VERSION):
+        def v1(evento):
+            from .v1.eventos import PartnerRegistrado, EventoPartner
+            
+            payload = PartnerRegistrado(
+                id=str(evento.id), 
+                nombre=str(evento.nombre), 
+                tipo=evento.tipo,
+                informacion_perfil=str(evento.informacion_perfil),
+                fecha_creacion=evento.fecha_creacion,
+            )
+            evento_integracion = EventoPartner(id=str(evento.id))
+            evento_integracion.id = str(evento.id)
+            evento_integracion.time = int(utils.time_millis())
+            evento_integracion.specversion = str(version)
+            evento_integracion.type = 'PartnerCreada'
+            evento_integracion.datacontenttype = 'AVRO'
+            evento_integracion.service_name = 'alpespartners'
+            evento_integracion.partner_registrado = payload
+
+            return evento_integracion
+                    
+        if not self.es_version_valida(version):
+            raise Exception(f'No se sabe procesar la version {version}')
+
+        if version == 'v1':
+            return v1(entidad)       
+
+    def entidad_a_dto(self, entidad: EventoPartner, version=LATEST_VERSION) -> PartnerDTO:
+        if not entidad:
+            raise NoExisteImplementacionParaTipoFabricaExcepcion
+        func = self.router.get(entidad.__class__, None)
+
+        if not func:
+            raise NoExisteImplementacionParaTipoFabricaExcepcion
+
+        return func(entidad, version=version)
+    
+    def dto_a_entidad(self, dto: PartnerDTO, version=LATEST_VERSION) -> Partner:
+        raise NotImplementedError
 
 
 class MapeadorPartner(Mapeador):

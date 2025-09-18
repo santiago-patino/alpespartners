@@ -22,22 +22,25 @@ class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
     def a_entidad(self, comando: ComandoRegistrarPartner) -> Partner:
         params = dict(
             nombre=comando.nombre,
+            tipo=comando.tipo,
             informacion_perfil=comando.informacion_perfil,
             fecha_creacion = datetime.datetime.now(),
             fecha_actualizacion = datetime.datetime.now()
         )
+        
+        partner = Partner(**params)
 
-        if comando.tipo == 'Influencer':
-            partner = Influencer(**params)
-        else:
-            partner = Affiliate(**params)
+        # if comando.tipo == 'Influencer':
+        #     partner = Influencer(**params)
+        # else:
+        #     partner = Affiliate(**params)
 
         return partner
         
     def handle(self, comando: ComandoRegistrarPartner):
         partner = self.a_entidad(comando)
+        partner.crear_partner(partner)
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPartners.__class__)
-        #repositorio.agregar(partner)
         
         uow = UnidadTrabajoSQLAlchemy()
         UnidadTrabajoPuerto.set_uow(uow)

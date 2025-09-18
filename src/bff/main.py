@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 from pydantic import BaseModel
 from typing import Any
 
-from .comandos import RegistrarCampaignPayload, ComandoRegistrarCampaign, RegistrarPartnerPayload, ComandoRegistrarPartner
+from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner
 from .consumidores import suscribirse_a_topico
 from .despachadores import Despachador
 
@@ -27,7 +27,7 @@ class RegistrarCampaignRequest(BaseModel):
 
 @app.post("/crear-campaign", include_in_schema=False)
 async def crear_campaña(request: RegistrarCampaignRequest) -> dict[str, str]:
-    payload = RegistrarCampaignPayload(
+    payload = RegistrarCampaign(
         nombre=request.nombre,
         presupuesto=request.presupuesto,
         divisa=request.divisa,
@@ -38,7 +38,7 @@ async def crear_campaña(request: RegistrarCampaignRequest) -> dict[str, str]:
     comando = ComandoRegistrarCampaign(
         time=utils.time_millis(),
         ingestion=utils.time_millis(),
-        datacontenttype=RegistrarCampaignPayload.__name__,
+        datacontenttype=RegistrarCampaign.__name__,
         data = payload
     )
     despachador = Despachador()
@@ -52,7 +52,7 @@ class RegistrarPartnerRequest(BaseModel):
 
 @app.post("/crear-partner", include_in_schema=False)
 async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
-    payload = RegistrarPartnerPayload(
+    payload = RegistrarPartner(
         nombre = request.nombre,
         tipo = request.tipo,
         informacion_perfil = request.informacion_perfil,
@@ -62,7 +62,7 @@ async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
     comando = ComandoRegistrarPartner(
         time=utils.time_millis(),
         ingestion=utils.time_millis(),
-        datacontenttype=RegistrarPartnerPayload.__name__,
+        datacontenttype=RegistrarPartner.__name__,
         data = payload
     )
     despachador = Despachador()

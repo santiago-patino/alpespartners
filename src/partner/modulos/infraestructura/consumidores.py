@@ -19,14 +19,13 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
             ) as consumidor:
                 while True:
                     mensaje = await consumidor.receive()
-                    print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido: {datos}')
                     
                     if topico == "evento-partners":
-                        print("Evento execute")
+                        print(f'Evento recibido: {datos}')
                         #await manejar_evento_partner(datos)
                     elif topico == "comando-registrar-partner":
+                        print(f'Comando registrar: {datos}')
                         comando = ComandoRegistrarPartner(datos.data.nombre, datos.data.tipo, datos.data.informacion_perfil)
                         ejecutar_commando(comando)
                         

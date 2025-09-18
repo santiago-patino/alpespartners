@@ -1,7 +1,14 @@
+from pulsar.schema import *
+from dataclasses import dataclass, field
+from partner.seedwork.dominio.eventos import (EventoDominio)
+from partner.modulos.infraestructura.v1 import TipoPartner
 
-class PartnerRegistrado():
+class EventoPartner(EventoDominio):
+    ...
+    
+class PartnerRegistrado(Record):
     id = String()
     nombre = String()
-    tipo = String()
+    tipo = TipoPartner
     informacion_perfil = String()
     fecha_creacion = Long()
