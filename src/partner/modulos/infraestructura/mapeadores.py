@@ -80,6 +80,7 @@ class MapeadorPartner(Mapeador):
     def entidad_a_dto(self, entidad: Partner):
         tipo = TipoPartner.influencer if isinstance(entidad, Influencer) else TipoPartner.affiliate
         return PartnerDTO(
+            id=entidad.id,
             nombre=entidad.nombre,
             tipo=tipo,
             informacion_perfil=entidad.informacion_perfil

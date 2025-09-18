@@ -39,6 +39,7 @@ class RepositorioPartnersSQLAlchemy(RepositorioPartners):
         # TODO
         raise NotImplementedError
 
-    def eliminar(self, reserva_id: UUID):
-        # TODO
-        raise NotImplementedError
+    def eliminar(self, partner_id: UUID):
+        partner_dto = self.db.query(PartnerDTO).filter(PartnerDTO.id == partner_id).first()
+        if partner_dto:
+            self.db.delete(partner_dto)

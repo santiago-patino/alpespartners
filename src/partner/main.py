@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 
 from partner.modulos.infraestructura.consumidores import suscribirse_a_topico
 from partner.modulos.infraestructura.v1.eventos import EventoPartner, PartnerRegistrado, TipoPartner
-from partner.modulos.infraestructura.v1.comandos import ComandoRegistrarPartner, RegistrarPartner
+from partner.modulos.infraestructura.v1.comandos import ComandoRegistrarPartner, RegistrarPartner, ComandoCancelarPartner, CancelarPartner
 from partner.modulos.infraestructura.v1 import TipoPartner
 from partner.modulos.infraestructura.despachadores import Despachador
 from partner.seedwork.infraestructura import utils
@@ -25,7 +25,8 @@ async def lifespan(app: FastAPI):
     
     task1 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-partner", "sub-com-registrar-partner", ComandoRegistrarPartner))
-    tasks.extend([task1, task2])
+    task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-partner", "sub-com-cancelar-partner", ComandoCancelarPartner))
+    tasks.extend([task1, task2, task3])
 
     yield
 
@@ -70,6 +71,26 @@ async def prueba_registrar_usuario() -> dict[str, str]:
     )
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-registrar-partner")
+    return {"status": "ok"}
+
+@app.get("/health", include_in_schema=False)
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+@app.get("/prueba-cancelar-partner", include_in_schema=False)
+async def prueba_cancelar_partner() -> dict[str, str]:
+    payload = CancelarPartner(
+        id = "dab168fe-fdd7-418f-9f99-10c67bc519b7"
+    )
+
+    comando = ComandoCancelarPartner(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=CancelarPartner.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-cancelar-partner")
     return {"status": "ok"}
 
 @app.get("/health", include_in_schema=False)

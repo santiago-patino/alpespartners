@@ -6,6 +6,7 @@ import asyncio
 from pulsar.schema import *
 from partner.seedwork.infraestructura import utils
 from partner.modulos.aplicacion.comandos.registrar_partner import ComandoRegistrarPartner
+from partner.modulos.aplicacion.comandos.cancelar_partner import ComandoCancelarPartner
 from partner.seedwork.aplicacion.comandos import ejecutar_commando
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
@@ -27,6 +28,10 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     elif topico == "comando-registrar-partner":
                         print(f'Comando registrar: {datos}')
                         comando = ComandoRegistrarPartner(datos.data.nombre, datos.data.tipo, datos.data.informacion_perfil)
+                        ejecutar_commando(comando)
+                    elif topico == "comando-cancelar-partner":
+                        print(f'Comando cancelar: {datos}')
+                        comando = ComandoCancelarPartner(datos.data.id)
                         ejecutar_commando(comando)
                         
                     await consumidor.acknowledge(mensaje)    
