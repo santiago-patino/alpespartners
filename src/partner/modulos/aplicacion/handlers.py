@@ -9,6 +9,12 @@ class HandlerPartnerDominio(Handler):
         despachador = Despachador()
         despachador.publicar_evento(evento, 'evento-partners')
         print('================ PARTNER CREADO ===========')
+    
+    @staticmethod
+    def handle_partner_fallido(evento):
+        despachador = Despachador()
+        despachador.publicar_evento(evento, 'evento-partners')
+        print('================ PARTNER FALLIDO ===========')
         
 
     

@@ -3,9 +3,16 @@ from partner.seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
 from partner.seedwork.infraestructura.utils import time_millis
 from partner.modulos.infraestructura.v1 import TipoPartner
 import uuid
-
+from partner.seedwork.dominio.eventos import (EventoDominio)
 
 class PartnerRegistrado(Record):
+    id = String()
+    nombre = String()
+    tipo = TipoPartner
+    informacion_perfil = String()
+    fecha_creacion = Long()
+    
+class RegistroPartnerFallido(Record):
     id = String()
     nombre = String()
     tipo = TipoPartner
@@ -21,6 +28,7 @@ class EventoPartner(EventoIntegracion):
     datacontenttype = String()
     service_name = String(default="partner.aeroalpes")
     partner_registrado = PartnerRegistrado
+    partner_fallido = RegistroPartnerFallido
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

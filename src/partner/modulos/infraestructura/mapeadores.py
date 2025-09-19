@@ -1,6 +1,6 @@
 from partner.seedwork.dominio.repositorios import Mapeador
 from partner.modulos.dominio.entidades import Partner, Affiliate, Influencer
-from partner.modulos.dominio.eventos import PartnerRegistrado, EventoPartner
+from partner.modulos.dominio.eventos import PartnerRegistrado, EventoPartner, RegistroPartnerFallido
 from .dto import TipoPartner, Partner as PartnerDTO
 
 from typing import Union, Optional
@@ -19,9 +19,7 @@ class MapadeadorEventosPartner(Mapeador):
     def __init__(self):
         self.router = {
             PartnerRegistrado: self._entidad_a_partner_creado,
-            # ReservaAprobada: self._entidad_a_reserva_aprobada,
-            # ReservaCancelada: self._entidad_a_reserva_cancelada,
-            # ReservaPagada: self._entidad_a_reserva_pagada
+            RegistroPartnerFallido: self._entidad_a_partner_fallido,
         }
 
     def obtener_tipo(self) -> type:
@@ -52,6 +50,34 @@ class MapadeadorEventosPartner(Mapeador):
             evento_integracion.datacontenttype = 'AVRO'
             evento_integracion.service_name = 'alpespartners'
             evento_integracion.partner_registrado = payload
+
+            return evento_integracion
+                    
+        if not self.es_version_valida(version):
+            raise Exception(f'No se sabe procesar la version {version}')
+
+        if version == 'v1':
+            return v1(entidad) 
+    
+    def _entidad_a_partner_fallido(self, entidad: RegistroPartnerFallido, version=LATEST_VERSION):
+        def v1(evento):
+            from .v1.eventos import RegistroPartnerFallido, EventoPartner
+            
+            payload = RegistroPartnerFallido(
+                id=str(evento.id), 
+                nombre=str(evento.nombre), 
+                tipo=evento.tipo,
+                informacion_perfil=str(evento.informacion_perfil),
+                fecha_creacion=evento.fecha_creacion,
+            )
+            evento_integracion = EventoPartner(id=str(evento.id))
+            evento_integracion.id = str(evento.id)
+            evento_integracion.time = int(utils.time_millis())
+            evento_integracion.specversion = str(version)
+            evento_integracion.type = 'partner_fallido'
+            evento_integracion.datacontenttype = 'AVRO'
+            evento_integracion.service_name = 'alpespartners'
+            evento_integracion.partner_fallido = payload
 
             return evento_integracion
                     

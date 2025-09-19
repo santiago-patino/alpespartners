@@ -8,6 +8,8 @@ from campaign.seedwork.infraestructura import utils
 from campaign.modulos.aplicacion.comandos.registrar_campaign import ComandoRegistrarCampaign
 from campaign.modulos.aplicacion.comandos.cancelar_campaign import ComandoCancelarCampaign
 from campaign.seedwork.aplicacion.comandos import ejecutar_commando
+from campaign.modulos.sagas.aplicacion.coordinadores.saga_campaigns import oir_mensaje
+from pydispatch import dispatcher
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
     try:
@@ -24,7 +26,16 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     
                     if topico == "evento-campaigns":
                         print(f'Evento recibido: {datos}')
-                        #await manejar_evento_partner(datos)
+                    elif topico == "evento-partners":
+                        print(f'Evento recibido partners: {datos}')
+                        
+                        if datos.type == "partner_fallido":
+                            evento = datos.partner_fallido
+                        elif datos.type == "partner_registrado":
+                            evento = datos.partner_registrado
+                        
+                        dispatcher.send(evento=evento, signal=f'{evento.__class__.__name__}Integracion')
+                        
                     elif topico == "comando-registrar-campaign":
                         print(f'Comando registrar: {datos}')
                         comando = ComandoRegistrarCampaign(datos.data.nombre, datos.data.presupuesto, datos.data.divisa, datos.data.marca_id, datos.data.participantes)

@@ -5,10 +5,12 @@ from campaign.api.v1.router import router as v1
 from contextlib import asynccontextmanager
 
 from campaign.modulos.infraestructura.consumidores import suscribirse_a_topico
-from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistradaPayload
+from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistradaPayload, EventoPartner
 from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarCampaign, RegistrarCampaign, Participante, ComandoCancelarCampaign, CancelarCampaign
 from campaign.modulos.infraestructura.despachadores import Despachador
 from campaign.seedwork.infraestructura import utils
+
+from campaign.modulos.sagas.aplicacion import *
 
 import json
 import asyncio
@@ -23,10 +25,11 @@ async def lifespan(app: FastAPI):
     importar_modelos_alchemy()
     init_db()
     
-    task1 = asyncio.ensure_future(suscribirse_a_topico("evento-campaigns", "sub-campaign", EventoCampaign))
-    task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-campaign", "sub-com-registrar-campaign", ComandoRegistrarCampaign))
+    # task1 = asyncio.ensure_future(suscribirse_a_topico("evento-campaigns", "sub-campaign", EventoCampaign))
+    # task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-campaign", "sub-com-registrar-campaign", ComandoRegistrarCampaign))
     task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-campaign", "sub-com-cancelar-campaign", ComandoCancelarCampaign))
-    tasks.extend([task1, task2, task3])
+    task4 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))
+    tasks.extend([task3, task4])
 
     yield
 

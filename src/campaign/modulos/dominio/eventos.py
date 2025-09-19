@@ -11,7 +11,15 @@ class Participante(Record):
     nombre = String()
     informacion_perfil = String()
 
-class CampaignRegistrada(Record):
+class CampaignRegistrada(Record, EventoCampaign):
+    id = String()
+    nombre = String()
+    presupuesto = Float()
+    divisa = String()
+    marca_id = String()
+    participantes = String()
+    
+class RegistroCampaignFallido(Record, EventoCampaign):
     id = String()
     nombre = String()
     presupuesto = Float()

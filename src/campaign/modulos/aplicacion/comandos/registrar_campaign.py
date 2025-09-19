@@ -56,6 +56,10 @@ class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
         # Registrar batch y commit
         UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, campaign)
         UnidadTrabajoPuerto.commit()
+        
+        UnidadTrabajoPuerto.registrar_failure(campaign)
+        
+        
 
 @comando.register(ComandoRegistrarCampaign)
 def ejecutar_comando_registrar_campaign(comando: ComandoRegistrarCampaign):

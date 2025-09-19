@@ -6,7 +6,7 @@ En este archivo usted encontrará las entidades del dominio de cliente
 
 from datetime import datetime
 from partner.seedwork.dominio.entidades import Entidad, AgregacionRaiz
-from partner.modulos.dominio.eventos import PartnerRegistrado
+from partner.modulos.dominio.eventos import PartnerRegistrado, RegistroPartnerFallido
 from dataclasses import dataclass, field
 
 # from .objetos_valor import Nombre, Email, Cedula, Rut
@@ -24,6 +24,12 @@ class Partner(AgregacionRaiz):
         
         self.agregar_evento(
             PartnerRegistrado(
+                id=str(self.id),
+                nombre=self.nombre,
+                tipo=self.tipo,
+                informacion_perfil=self.informacion_perfil
+            ),
+            RegistroPartnerFallido(
                 id=str(self.id),
                 nombre=self.nombre,
                 tipo=self.tipo,

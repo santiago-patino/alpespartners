@@ -6,9 +6,16 @@ from partner.modulos.infraestructura.v1 import TipoPartner
 class EventoPartner(EventoDominio):
     ...
     
-class PartnerRegistrado(Record):
+class PartnerRegistrado(Record, EventoPartner):
     id = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()
     fecha_creacion = Long()
+    
+class RegistroPartnerFallido(Record, EventoPartner):
+    id = String()
+    nombre = String()
+    tipo = TipoPartner
+    informacion_perfil = String()
+    fecha_creacion = Long() 

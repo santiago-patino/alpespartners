@@ -10,5 +10,11 @@ class HandlerCampaignDominio(Handler):
         despachador.publicar_evento(evento, 'evento-campaigns')
         print('================ CAMPANA CREADA ===========')
         
+    # @staticmethod
+    # def handle_creacion_campaign_fallido(evento):
+    #     despachador = Despachador()
+    #     despachador.publicar_evento(evento, 'evento-campaigns')
+    #     print('================ CAMPANA FALLIDA ===========')
+        
 
     

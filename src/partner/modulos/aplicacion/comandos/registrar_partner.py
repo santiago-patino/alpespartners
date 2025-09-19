@@ -46,8 +46,10 @@ class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
         UnidadTrabajoPuerto.set_uow(uow)
         
         # Registrar batch y commit
-        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, partner)
-        UnidadTrabajoPuerto.commit()
+        # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, partner)
+        # UnidadTrabajoPuerto.commit()
+        
+        UnidadTrabajoPuerto.registrar_failure(partner)
         
         
 

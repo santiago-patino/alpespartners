@@ -18,5 +18,5 @@ class Despachador:
         cliente.close()
         
     def publicar_evento(self, evento, topico):
-       evento = self.mapper.entidad_a_dto(evento)
-       self.publicar_mensaje(evento, topico, AvroSchema(evento.__class__))
+        evento = self.mapper.entidad_a_dto(evento)
+        self.publicar_mensaje(evento, topico, AvroSchema(evento.__class__))

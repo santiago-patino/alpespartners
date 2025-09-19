@@ -7,7 +7,7 @@ En este archivo usted encontrará las entidades del dominio de cliente
 from datetime import datetime
 from campaign.seedwork.dominio.entidades import Entidad, AgregacionRaiz
 from dataclasses import dataclass, field
-from campaign.modulos.dominio.eventos import CampaignRegistrada, Participante
+from campaign.modulos.dominio.eventos import CampaignRegistrada, Participante, RegistroCampaignFallido
 import json
 from campaign.seedwork.infraestructura import utils
 
@@ -44,6 +44,13 @@ class Campaign(AgregacionRaiz):
             for p in self.participantes
         ]
         
+        # payload = id=str(self.id),
+        #         nombre=self.nombre,
+        #         presupuesto=self.presupuesto,
+        #         divisa=self.divisa,
+        #         marca_id=self.marca_id,
+        #         participantes=json.dumps(lista_participantes)
+        
         self.agregar_evento(
             CampaignRegistrada(
                 id=str(self.id),
@@ -52,7 +59,15 @@ class Campaign(AgregacionRaiz):
                 divisa=self.divisa,
                 marca_id=self.marca_id,
                 participantes=json.dumps(lista_participantes)
-            )
+            ),
+            RegistroCampaignFallido(
+                id=str(self.id),
+                nombre=self.nombre,
+                presupuesto=self.presupuesto,
+                divisa=self.divisa,
+                marca_id=self.marca_id,
+                participantes=json.dumps(lista_participantes)
+            ),
         )
 
    
