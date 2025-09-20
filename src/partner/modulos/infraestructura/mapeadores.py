@@ -119,6 +119,7 @@ class MapeadorPartner(Mapeador):
 
     def dto_a_entidad(self, dto: PartnerDTO):
         return Partner(
+            id=dto.id,
             id_campaign=dto.id_campaign,
             nombre=dto.nombre,
             tipo=dto.tipo,

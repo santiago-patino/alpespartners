@@ -10,8 +10,12 @@ from partner.modulos.infraestructura.v1.comandos import ComandoRegistrarPartner,
 from partner.modulos.infraestructura.v1 import TipoPartner
 from partner.modulos.infraestructura.despachadores import Despachador
 from partner.seedwork.infraestructura import utils
+from partner.modulos.aplicacion.queries.obtener_todos_partners import ObtenerTodosPartners
+from partner.modulos.aplicacion.queries.obtener_partner import ObtenerPartner
+from partner.seedwork.aplicacion.queries import ejecutar_query
 
 import asyncio
+from typing import Any
 
 def importar_modelos_alchemy():
     import partner.modulos.infraestructura.dto
@@ -94,9 +98,28 @@ async def prueba_cancelar_partner() -> dict[str, str]:
     despachador.publicar_mensaje(comando, "comando-cancelar-partner")
     return {"status": "ok"}
 
+@app.get("/partners", include_in_schema=False)
+async def obtener_todos_partners() -> Any:
+    try:
+        query_resultado = ejecutar_query(ObtenerTodosPartners())
+        return query_resultado.resultado
+    except Exception:
+        return {"Status": "No existe"}
+    
+@app.get("/partners/{id}", include_in_schema=False)
+async def obtener_partner(id: str) -> Any:
+    try:
+        query_resultado = ejecutar_query(ObtenerPartner(id))
+        return query_resultado.resultado
+    except Exception:
+        return {"Status": "No existe"}
+    
 @app.get("/health", include_in_schema=False)
 async def health() -> dict[str, str]:
     return {"status": "ok"}
 
+@app.get("/health", include_in_schema=False)
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
 
-app.include_router(v1, prefix="/v1", tags=["Version 1"])
+# app.include_router(v1, prefix="/v1", tags=["Version 1"])

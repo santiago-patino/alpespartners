@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, BackgroundTasks
 from partner.modulos.aplicacion.comandos.registrar_partner import ComandoRegistrarPartner
-from partner.modulos.aplicacion.queries.obtener_partner import QueryObtenerPartner
+# from partner.modulos.aplicacion.queries.obtener_partner import QueryObtenerPartner
 from partner.modulos.infraestructura.mapeadores import MapeadorPartner
 from partner.seedwork.presentacion.dto import RespuestaAsincrona
 from partner.seedwork.aplicacion.comandos import ejecutar_commando
@@ -21,12 +21,12 @@ async def registrar_usuario(registrar_partner: RegistrarPartner, background_task
     background_tasks.add_task(ejecutar_commando, comando)
     return RespuestaAsincrona(mensaje="Registro de partner en proceso")
 
-@router.get("/{id}")
-async def dar_partner_usando_query(id: str):  # o int / UUID, según tu modelo
-    if id:
-        query_resultado = ejecutar_query(QueryObtenerPartner(id))
-        # return query_resultado.resultado.__dict__
-        map_partner = MapeadorPartner()
-        return map_partner.entidad_a_externo(query_resultado.resultado)
-    else:
-        return [{'message': 'GET!'}]
+# @router.get("/{id}")
+# async def dar_partner_usando_query(id: str):  # o int / UUID, según tu modelo
+#     if id:
+#         query_resultado = ejecutar_query(QueryObtenerPartner(id))
+#         # return query_resultado.resultado.__dict__
+#         map_partner = MapeadorPartner()
+#         return map_partner.entidad_a_externo(query_resultado.resultado)
+#     else:
+#         return [{'message': 'GET!'}]

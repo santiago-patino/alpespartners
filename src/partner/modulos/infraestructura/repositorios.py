@@ -23,21 +23,16 @@ class RepositorioPartnersSQLAlchemy(RepositorioPartners):
         return self._fabrica_partners
 
     def obtener_por_id(self, partner_id: UUID) -> Partner:
-        partner_dto = self.db.query(PartnerDTO).filter(PartnerDTO.id == partner_id).first()
-        if partner_dto:
-            return self.fabrica_partners.crear_objeto(partner_dto, MapeadorPartner())
-        return None
-        # partner_dto = self.db.query(PartnerDTO).filter(PartnerDTO.id == partner_id).one()
-        # if partner_dto:
-        #     return self.fabrica_partners.crear_objeto(partner_dto, MapeadorPartner())
-        # return None  # o lanzar excepción si no existe
-        # with SessionLocal() as db:
-        #     partner_dto = db.query(PartnerDTO).filter_by(id=str(id)).one()
-        #     return self.fabrica_partners.crear_objeto(partner_dto, MapeadorPartner())
+        partner_dto = self.db.query(PartnerDTO).filter_by(id=str(partner_id)).one()
+        # partner_dto = self.db.query(PartnerDTO).filter(PartnerDTO.id == partner_id).first()
+        return self.fabrica_partners.crear_objeto(partner_dto, MapeadorPartner())
 
     def obtener_todos(self) -> list[Partner]:
-        # TODO
-        raise NotImplementedError
+        partner_dtos = self.db.query(PartnerDTO).all()  # obtiene todos los registros
+        return [
+            self.fabrica_partners.crear_objeto(dto, MapeadorPartner())
+            for dto in partner_dtos
+        ]
 
     def agregar(self, partner: Partner):
         partner_dto = self.fabrica_partners.crear_objeto(partner, MapeadorPartner())

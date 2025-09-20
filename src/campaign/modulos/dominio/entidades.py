@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from campaign.modulos.dominio.eventos import CampaignRegistrada, Participante, RegistroCampaignFallido
 import json
 from campaign.seedwork.infraestructura import utils
-
+from typing import Optional
 
 @dataclass
 class Participante(Entidad):
@@ -21,6 +21,7 @@ class Participante(Entidad):
 
 @dataclass
 class Campaign(AgregacionRaiz):
+    id: Optional[str] = None
     nombre: str = ""
     presupuesto: float = ""
     divisa: str = ""

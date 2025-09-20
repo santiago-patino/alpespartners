@@ -130,7 +130,7 @@ async def obtener_todos_campaigns() -> Any:
 @app.get("/campaigns/{id}", include_in_schema=False)
 async def obtener_campaign(id: str) -> Any:
     try:
-        query_resultado = ejecutar_query(ObtenerCampaign(id=campaign_id))
+        query_resultado = ejecutar_query(ObtenerCampaign(id))
         return query_resultado.resultado
     except Exception:
         return {"Status": "No existe"}

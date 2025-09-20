@@ -100,6 +100,7 @@ class MapeadorCampaign(Mapeador):
 
     def dto_a_entidad(self, dto: CampaignDTO):
         return Campaign(
+            id=dto.id,
             nombre=dto.nombre,
             presupuesto=dto.presupuesto,
             divisa=dto.divisa,

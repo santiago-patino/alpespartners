@@ -9,11 +9,12 @@ from partner.seedwork.dominio.entidades import Entidad, AgregacionRaiz
 from partner.modulos.dominio.eventos import PartnerRegistrado, RegistroPartnerFallido
 from dataclasses import dataclass, field
 from partner.modulos.infraestructura.v1 import TipoPartner
-
+from typing import Optional
 # from .objetos_valor import Nombre, Email, Cedula, Rut
 
 @dataclass
 class Partner(AgregacionRaiz):
+    id: Optional[str] = None
     id_campaign: str = ""
     nombre: str = ""
     informacion_perfil: str = ""

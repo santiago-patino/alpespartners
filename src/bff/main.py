@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 from pydantic import BaseModel
 from typing import Any
 
-from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner, RegistrarEvento, ComandoRegistrarEvento, ComandoCancelarCampaign, CancelarCampaign
+from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner, RegistrarEvento, ComandoRegistrarEvento, ComandoCancelarCampaign, CancelarCampaign, ComandoCancelarPartner, CancelarPartner
 from .consumidores import suscribirse_a_topico
 from .despachadores import Despachador
 from typing import Any
@@ -19,6 +19,9 @@ class Config(BaseSettings):
 settings = Config()
 app_configs: dict[str, Any] = {"title": "BFF AlpesParterns"}
 app = FastAPI(**app_configs)
+
+CAMPAIGN_HOST = os.getenv("CAMPAIGN_HOST", default="localhost:8001")
+PARTNER_HOST = os.getenv("PARTNER_HOST", default="localhost:8002")
 
 class RegistrarCampaignRequest(BaseModel):
     nombre: str
@@ -64,15 +67,14 @@ async def eliminar_campaña(id:str) -> Any:
     despachador.publicar_mensaje(comando, "comando-cancelar-campaign")
     return {"status": "ok"}
 
-ALPESPARTNERS_HOST = os.getenv("ALPESPARTNERS_ADDRESS", default="localhost:8001")
 @app.get("/obtener-campaigns")
 async def obtener_campaigns() -> Any:
-    campaigns_json = requests.get(f'http://{ALPESPARTNERS_HOST}/campaigns').json()
+    campaigns_json = requests.get(f'http://{CAMPAIGN_HOST}/campaigns').json()
     return campaigns_json
 
 @app.get("/obtener-campaigns/{id}")
 async def obtener_campaign(id:str) -> Any:
-    campaigns_json = requests.get(f'http://{ALPESPARTNERS_HOST}/campaigns/{id}').json()
+    campaigns_json = requests.get(f'http://{CAMPAIGN_HOST}/campaigns/{id}').json()
     return campaigns_json
 
 class RegistrarPartnerRequest(BaseModel):
@@ -100,6 +102,32 @@ async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-registrar-partner")
     return {"status": "ok"}
+
+@app.get("/eliminar-partner/{id}")
+async def eliminar_partner(id:str) -> Any:
+    payload = CancelarPartner(
+        id = id
+    )
+
+    comando = ComandoCancelarPartner(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=CancelarPartner.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-cancelar-partner")
+    return {"status": "ok"}
+
+@app.get("/obtener-partners")
+async def obtener_campaigns() -> Any:
+    partners_json = requests.get(f'http://{PARTNER_HOST}/partners').json()
+    return partners_json
+
+@app.get("/obtener-partners/{id}")
+async def obtener_campaign(id:str) -> Any:
+    partners_json = requests.get(f'http://{PARTNER_HOST}/partners/{id}').json()
+    return partners_json
 
 class RegistrarEventoRequest(BaseModel):
     id_partner: str
