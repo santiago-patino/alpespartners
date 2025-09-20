@@ -7,11 +7,16 @@ from contextlib import asynccontextmanager
 from campaign.modulos.infraestructura.consumidores import suscribirse_a_topico
 from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistrada, EventoPartner, EventoTraking
 from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarCampaign, RegistrarCampaign, Participante, ComandoCancelarCampaign, CancelarCampaign
+from campaign.modulos.aplicacion.queries.obtener_todos_campaigns import ObtenerTodosCampaigns
+from campaign.modulos.aplicacion.queries.obtener_campaign import ObtenerCampaign
+
+from campaign.seedwork.aplicacion.queries import ejecutar_query
 from campaign.modulos.infraestructura.despachadores import Despachador
 from campaign.seedwork.infraestructura import utils
 
 from campaign.modulos.sagas.aplicacion import *
 
+from typing import Any
 import json
 import asyncio
 
@@ -113,9 +118,27 @@ async def prueba_registrar_campaign() -> dict[str, str]:
     despachador.publicar_mensaje(comando, "comando-cancelar-campaign")
     return {"status": "ok"}
 
+@app.get("/campaigns", include_in_schema=False)
+async def obtener_todos_campaigns() -> Any:
+    try:
+        query_resultado = ejecutar_query(ObtenerTodosCampaigns())
+        return query_resultado.resultado
+    except Exception:
+        return {"Status": "No existe"}
+    
+
+@app.get("/campaigns/{id}", include_in_schema=False)
+async def obtener_campaign(id: str) -> Any:
+    try:
+        query_resultado = ejecutar_query(ObtenerCampaign(id=campaign_id))
+        return query_resultado.resultado
+    except Exception:
+        return {"Status": "No existe"}
+    
 @app.get("/health", include_in_schema=False)
 async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
 app.include_router(v1, prefix="/v1", tags=["Version 1"])
+

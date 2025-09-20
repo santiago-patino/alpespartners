@@ -24,6 +24,22 @@ class ComandoRegistrarCampaign(Record):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+class CancelarCampaign(Record):
+    id = String()
+
+class ComandoCancelarCampaign(Record):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CancelarCampaign")
+    datacontenttype = String()
+    service_name = String(default="campaign.aeroalpes")
+    data = CancelarCampaign
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class TipoPartner(Enum):
@@ -48,6 +64,24 @@ class ComandoRegistrarPartner(Record):
     datacontenttype = String()
     service_name = String(default="partner.aeroalpes")
     data = RegistrarPartner
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+class RegistrarEvento(Record):
+    id_partner = String()
+    id_campana = String()
+    fecha = Long()
+
+class ComandoRegistrarEvento(Record):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="RegistrarEvento")
+    datacontenttype = String()
+    service_name = String(default="traking.aeroalpes")
+    data = RegistrarEvento
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

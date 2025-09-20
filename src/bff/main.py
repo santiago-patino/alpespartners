@@ -5,11 +5,13 @@ from pydantic_settings import BaseSettings
 from pydantic import BaseModel
 from typing import Any
 
-from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner
+from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner, RegistrarEvento, ComandoRegistrarEvento, ComandoCancelarCampaign, CancelarCampaign
 from .consumidores import suscribirse_a_topico
 from .despachadores import Despachador
-
+from typing import Any
 from . import utils
+import requests
+import os
 
 class Config(BaseSettings):
     APP_VERSION: str = "1"
@@ -25,7 +27,7 @@ class RegistrarCampaignRequest(BaseModel):
     marca_id: str
     participantes: list
 
-@app.post("/crear-campaign", include_in_schema=False)
+@app.post("/registrar-campaign", include_in_schema=False)
 async def crear_campaña(request: RegistrarCampaignRequest) -> dict[str, str]:
     payload = RegistrarCampaign(
         nombre=request.nombre,
@@ -45,13 +47,41 @@ async def crear_campaña(request: RegistrarCampaignRequest) -> dict[str, str]:
     despachador.publicar_mensaje(comando, "comando-registrar-campaign")
     return {"status": "ok"}
 
+
+@app.get("/eliminar-campaign/{id}")
+async def eliminar_campaña(id:str) -> Any:
+    payload = CancelarCampaign(
+        id = id
+    )
+
+    comando = ComandoCancelarCampaign(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=CancelarCampaign.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-cancelar-campaign")
+    return {"status": "ok"}
+
+ALPESPARTNERS_HOST = os.getenv("ALPESPARTNERS_ADDRESS", default="localhost:8001")
+@app.get("/obtener-campaigns")
+async def obtener_campaigns() -> Any:
+    campaigns_json = requests.get(f'http://{ALPESPARTNERS_HOST}/campaigns').json()
+    return campaigns_json
+
+@app.get("/obtener-campaigns/{id}")
+async def obtener_campaign(id:str) -> Any:
+    campaigns_json = requests.get(f'http://{ALPESPARTNERS_HOST}/campaigns/{id}').json()
+    return campaigns_json
+
 class RegistrarPartnerRequest(BaseModel):
     id_campaign: str
     nombre: str
     tipo: str
     informacion_perfil: str
 
-@app.post("/crear-partner", include_in_schema=False)
+@app.post("/registrar-partner", include_in_schema=False)
 async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
     payload = RegistrarPartner(
         id_campaign = request.id_campaign,  # ID de campaña fijo para la prueba
@@ -69,4 +99,26 @@ async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
     )
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-registrar-partner")
+    return {"status": "ok"}
+
+class RegistrarEventoRequest(BaseModel):
+    id_partner: str
+    id_campana: str
+    
+@app.post("/registrar-evento", include_in_schema=False)
+async def crear_partner(request: RegistrarEventoRequest) -> dict[str, str]:
+    payload = RegistrarEvento(
+        id_partner = request.id_partner,
+        id_campana = request.id_campana,
+        fecha = utils.time_millis()
+    )
+
+    comando = ComandoRegistrarEvento(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=RegistrarEvento.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-registrar-evento-conversion")
     return {"status": "ok"}

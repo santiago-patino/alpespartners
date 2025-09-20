@@ -106,12 +106,12 @@ class MapeadorCampaign(Mapeador):
             marca_id=dto.marca_id,
             participantes=[
                 Participante(
-                    id=p.id,
-                    tipo=p.tipo,
-                    nombre=p.nombre,
-                    informacion_perfil=p.informacion_perfil
+                    id=p["id"],
+                    tipo=p["tipo"],
+                    nombre=p["nombre"],
+                    informacion_perfil=p["informacion_perfil"]
                 )
-                for p in dto.participantes
+                for p in dto.participantes  # cada p es un dict
             ]
         )
         
