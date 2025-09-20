@@ -1,4 +1,6 @@
-# from pydispatch import dispatcher
-# from .handlers import HandlerReservaDominio
+from pydispatch import dispatcher
+from .handlers import HandlerEventoDominio
+from traking.modulos.dominio.eventos import EventoRegistrado, RegistroEventoFallido
 
-# dispatcher.connect(HandlerReservaDominio.handle_reserva_creada, signal='ReservaCreadaDominio')
+dispatcher.connect(HandlerEventoDominio.handle_evento_creado, signal=f'{EventoRegistrado.__name__}Dominio')
+dispatcher.connect(HandlerEventoDominio.handle_evento_fallido, signal=f'{RegistroEventoFallido.__name__}Integracion')

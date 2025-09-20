@@ -31,8 +31,8 @@ class RegistrarEventoHandler(RegistrarEventoBaseHandler):
         
     def handle(self, comando: ComandoRegistrarEvento):
         evento = self.a_entidad(comando)
+        evento.crear_evento(evento)
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioEventos.__class__)
-        #repositorio.agregar(evento)
         
         uow = UnidadTrabajoSQLAlchemy()
         UnidadTrabajoPuerto.set_uow(uow)
@@ -40,6 +40,8 @@ class RegistrarEventoHandler(RegistrarEventoBaseHandler):
         # Registrar batch y commit
         UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, evento)
         UnidadTrabajoPuerto.commit()
+        
+        # UnidadTrabajoPuerto.registrar_failure(evento)
 
 @comando.register(ComandoRegistrarEvento)
 def ejecutar_comando_registrar_evento(comando: ComandoRegistrarEvento):

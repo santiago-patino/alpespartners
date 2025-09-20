@@ -39,6 +39,7 @@ class RepositorioEventosSQLAlchemy(RepositorioEventos):
         # TODO
         raise NotImplementedError
 
-    def eliminar(self, reserva_id: UUID):
-        # TODO
-        raise NotImplementedError
+    def eliminar(self, evento_id: UUID):
+        evento_dto = self.db.query(EventoDTO).filter(EventoDTO.id == evento_id).first()
+        if evento_dto:
+            self.db.delete(evento_dto)

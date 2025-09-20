@@ -6,6 +6,7 @@ import asyncio
 from pulsar.schema import *
 from traking.seedwork.infraestructura import utils
 from traking.modulos.aplicacion.comandos.registrar_evento import ComandoRegistrarEvento
+from traking.modulos.aplicacion.comandos.cancelar_evento import ComandoCancelarEvento
 from traking.seedwork.aplicacion.comandos import ejecutar_commando
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
@@ -19,15 +20,18 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
             ) as consumidor:
                 while True:
                     mensaje = await consumidor.receive()
-                    print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido: {datos}')
                     
                     if topico == "evento-partners":
-                        print("Evento execute")
+                        print(f'Evento recibido: {datos}')
                         #await manejar_evento_partner(datos)
                     elif topico == "comando-registrar-evento-conversion":
+                        print(f'Comando registrar: {datos}')
                         comando = ComandoRegistrarEvento(datos.data.id_partner, datos.data.id_campana, datos.data.fecha)
+                        ejecutar_commando(comando)
+                    elif topico == "comando-cancelar-evento":
+                        print(f'Comando cancelar: {datos}')
+                        comando = ComandoCancelarEvento(datos.data.id)
                         ejecutar_commando(comando)
                         
                     await consumidor.acknowledge(mensaje)    

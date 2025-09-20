@@ -41,3 +41,21 @@ class ComandoCancelarPartner(ComandoIntegracion):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+class RegistrarEvento(Record):
+    id_partner = String()
+    id_campana = String()
+    fecha = Long()
+
+class ComandoRegistrarEvento(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="RegistrarEvento")
+    datacontenttype = String()
+    service_name = String(default="traking.aeroalpes")
+    data = RegistrarEvento
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

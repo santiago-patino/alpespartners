@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 
 from traking.modulos.infraestructura.consumidores import suscribirse_a_topico
 from traking.modulos.infraestructura.v1.eventos import EventoRegistrado, EventoTraking
-from traking.modulos.infraestructura.v1.comandos import ComandoRegistrarEvento, RegistrarEvento
+from traking.modulos.infraestructura.v1.comandos import ComandoRegistrarEvento, RegistrarEvento, CancelarEvento, ComandoCancelarEvento
 from traking.modulos.infraestructura.despachadores import Despachador
 from traking.seedwork.infraestructura import utils
 from datetime import datetime
@@ -25,7 +25,8 @@ async def lifespan(app: FastAPI):
     
     task1 = asyncio.ensure_future(suscribirse_a_topico("evento-traking", "sub-evento", EventoTraking))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-evento-conversion", "sub-com-registrar-evento-conversion", ComandoRegistrarEvento))
-    tasks.extend([task1, task2])
+    task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-evento", "sub-com-cancelar-evento", ComandoCancelarEvento))
+    tasks.extend([task1, task2, task3])
 
     yield
 
@@ -69,6 +70,26 @@ async def prueba_registrar_usuario() -> dict[str, str]:
     )
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-registrar-evento-conversion")
+    return {"status": "ok"}
+
+@app.get("/prueba-cancelar-evento", include_in_schema=False)
+async def prueba_cancelar_evento() -> dict[str, str]:
+    payload = CancelarEvento(
+        id = "0bd9855c-2155-4415-9c2b-0df6ca2adf32"
+    )
+
+    comando = ComandoCancelarEvento(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=CancelarEvento.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-cancelar-evento")
+    return {"status": "ok"}
+
+@app.get("/health", include_in_schema=False)
+async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 @app.get("/health", include_in_schema=False)

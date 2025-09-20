@@ -10,6 +10,9 @@ from .base import RegistrarPartnerBaseHandler
 from dataclasses import dataclass
 import datetime
 import time
+from partner.modulos.infraestructura.despachadores import Despachador
+from partner.modulos.infraestructura.v1.comandos import ComandoRegistrarEvento, RegistrarEvento
+from partner.seedwork.infraestructura import utils
 
 @dataclass
 class ComandoRegistrarPartner(Comando):
@@ -53,9 +56,30 @@ class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
         
         #UnidadTrabajoPuerto.registrar_failure(partner)
         
+        comando_registrar_eventos(partner)
+        
         
 
 @comando.register(ComandoRegistrarPartner)
 def ejecutar_comando_registrar_partner(comando: ComandoRegistrarPartner):
     handler = RegistrarPartnerHandler()
     handler.handle(comando)
+    
+def comando_registrar_eventos(data):
+    print(data)
+    
+    payload = RegistrarEvento(
+        id_partner = str(data.id),
+        id_campana = str(data.id_campaign),
+        fecha = utils.time_millis()
+    )
+
+    comando = ComandoRegistrarEvento(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=RegistrarEvento.__name__,
+        data = payload
+    )
+    
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-registrar-evento-conversion")

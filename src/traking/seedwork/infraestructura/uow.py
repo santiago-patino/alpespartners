@@ -88,6 +88,15 @@ class UnidadTrabajo(ABC):
         except:
             logging.error('ERROR: Suscribiendose al tópico de eventos!')
             traceback.print_exc()
+            
+    def _publicar_eventos_post_commit_rollback(self, batch):
+        print()
+        try:
+            for evento in batch.eventos_compensacion:
+                dispatcher.send(signal=f'{type(evento).__name__}Integracion', evento=evento)
+        except:
+            logging.error('ERROR: Evento Fallido!')
+            traceback.print_exc()
 
 
 # ---- Unidad de Trabajo Puerto sin Flask ----
@@ -128,3 +137,8 @@ class UnidadTrabajoPuerto:
     def registrar_batch(operacion, *args, lock=Lock.PESIMISTA, **kwargs):
         uow = UnidadTrabajoPuerto.get_uow()
         uow.registrar_batch(operacion, *args, lock=lock, **kwargs)
+        
+    @staticmethod
+    def registrar_failure(entidad):
+        uow = UnidadTrabajoPuerto.get_uow()
+        uow._publicar_eventos_post_commit_rollback(entidad)
