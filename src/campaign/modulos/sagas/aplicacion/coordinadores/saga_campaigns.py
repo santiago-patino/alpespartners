@@ -13,9 +13,9 @@ from campaign.modulos.aplicacion.comandos.registrar_campaign import ComandoRegis
 from campaign.modulos.dominio.eventos import CampaignRegistrada, RegistroCampaignFallido
 
 # from campaign.modulos.sagas.dominio.eventos.partner import PartnerRegistrado, RegistroPartnerFallido
-from campaign.modulos.infraestructura.v1.eventos import PartnerRegistrado, RegistroPartnerFallido
+from campaign.modulos.infraestructura.v1.eventos import PartnerRegistrado, RegistroPartnerFallido, EventoRegistrado, RegistroEventoFallido
 from campaign.modulos.sagas.aplicacion.comandos.partner import ComandoRegistrarPartner
-from campaign.modulos.infraestructura.v1.comandos import CancelarCampaign, ComandoCancelarCampaign, ComandoCancelarPartner, CancelarPartner
+from campaign.modulos.infraestructura.v1.comandos import CancelarCampaign, ComandoCancelarCampaign, ComandoCancelarPartner, CancelarPartner, ComandoRegistrarEvento, RegistrarEvento, ComandoCancelarEvento, CancelarEvento
 
 from campaign.modulos.infraestructura.despachadores import Despachador
 
@@ -37,6 +37,7 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
             # Inicio(index=0),
             Transaccion(index=0, comando=ComandoRegistrarCampaign, evento=CampaignRegistrada, error=RegistroCampaignFallido, compensacion=ComandoCancelarCampaign),
             Transaccion(index=1, comando=ComandoRegistrarPartner, evento=PartnerRegistrado, error=RegistroPartnerFallido, compensacion=ComandoCancelarPartner),
+            Transaccion(index=2, comando=ComandoRegistrarEvento, evento=EventoRegistrado, error=RegistroEventoFallido, compensacion=ComandoCancelarEvento),
             # Fin(index=3)
         ]
 
@@ -55,7 +56,7 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
     def construir_comando(self, evento: EventoDominio, tipo_comando: type) -> Comando:
         # Transforma un evento en la entrada de un comando
         print(f'[COMPENSACION] Evento Origen: {type(evento).__name__}, Comando Destino: {tipo_comando.__name__ if tipo_comando else "None"}')
-        # print(evento)
+        print(evento)
         despachador = Despachador()
         if tipo_comando == ComandoCancelarCampaign:
             payload = CancelarCampaign(
@@ -72,7 +73,7 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
             
         elif tipo_comando == ComandoCancelarPartner:
             payload = CancelarPartner(
-                id = "06f4addd-4601-4c20-95cf-3b1596014284"
+                id = evento.id_partner
             )
         
             comando = ComandoCancelarPartner(
@@ -82,6 +83,18 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
                 data = payload
             )
             despachador.publicar_mensaje(comando, "comando-cancelar-partner")
+        elif tipo_comando == ComandoCancelarEvento:
+            payload = CancelarEvento(
+                id = "06f4addd-4601-4c20-95cf-3b1596014284"
+            )
+        
+            comando = ComandoCancelarEvento(
+                time=utils.time_millis(),
+                ingestion=utils.time_millis(),
+                datacontenttype=CancelarEvento.__name__,
+                data = payload
+            )
+            despachador.publicar_mensaje(comando, "comando-cancelar-evento")
 
 # Listener/Handler para redireccionar eventos de dominio a la saga
 def oir_mensaje(signal, sender, **kwargs):

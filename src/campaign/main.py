@@ -5,7 +5,7 @@ from campaign.api.v1.router import router as v1
 from contextlib import asynccontextmanager
 
 from campaign.modulos.infraestructura.consumidores import suscribirse_a_topico
-from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistradaPayload, EventoPartner
+from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistradaPayload, EventoPartner, EventoTraking
 from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarCampaign, RegistrarCampaign, Participante, ComandoCancelarCampaign, CancelarCampaign
 from campaign.modulos.infraestructura.despachadores import Despachador
 from campaign.seedwork.infraestructura import utils
@@ -29,7 +29,8 @@ async def lifespan(app: FastAPI):
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-campaign", "sub-com-registrar-campaign", ComandoRegistrarCampaign))
     task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-campaign", "sub-com-cancelar-campaign", ComandoCancelarCampaign))
     task4 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))
-    tasks.extend([task2, task3, task4])
+    task5 = asyncio.ensure_future(suscribirse_a_topico("evento-traking", "sub-evento", EventoTraking))
+    tasks.extend([task2, task3, task4, task5])
 
     yield
 

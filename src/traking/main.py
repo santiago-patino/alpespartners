@@ -23,10 +23,10 @@ async def lifespan(app: FastAPI):
     importar_modelos_alchemy()
     init_db()
     
-    task1 = asyncio.ensure_future(suscribirse_a_topico("evento-traking", "sub-evento", EventoTraking))
+    # task1 = asyncio.ensure_future(suscribirse_a_topico("evento-traking", "sub-evento", EventoTraking))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-evento-conversion", "sub-com-registrar-evento-conversion", ComandoRegistrarEvento))
     task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-evento", "sub-com-cancelar-evento", ComandoCancelarEvento))
-    tasks.extend([task1, task2, task3])
+    tasks.extend([task2, task3])
 
     yield
 

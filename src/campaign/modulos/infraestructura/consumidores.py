@@ -27,8 +27,18 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     datos = mensaje.value()
                     
-                    if topico == "evento-campaigns":
+                    if topico == "evento-traking":
                         print(f'Evento recibido: {datos}')
+                        
+                        if datos.type == "evento_registrado":
+                            evento = datos.evento_registrado
+                        elif datos.type == "evento_fallido":
+                            evento = datos.evento_fallido
+                        else:
+                            raise ValueError(f"Tipo de evento no soportado: {datos.type}")
+                        
+                        dispatcher.send(evento=evento, signal=f'{evento.__class__.__name__}Integracion')
+                        
                     elif topico == "evento-partners":
                         print(f'Evento recibido partners: {datos}')
                         

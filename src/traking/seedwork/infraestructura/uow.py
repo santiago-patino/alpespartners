@@ -90,7 +90,6 @@ class UnidadTrabajo(ABC):
             traceback.print_exc()
             
     def _publicar_eventos_post_commit_rollback(self, batch):
-        print()
         try:
             for evento in batch.eventos_compensacion:
                 dispatcher.send(signal=f'{type(evento).__name__}Integracion', evento=evento)

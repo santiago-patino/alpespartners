@@ -22,7 +22,7 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     datos = mensaje.value()
                     
-                    if topico == "evento-partners":
+                    if topico == "evento-traking":
                         print(f'Evento recibido: {datos}')
                         #await manejar_evento_partner(datos)
                     elif topico == "comando-registrar-evento-conversion":
