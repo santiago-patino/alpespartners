@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 from pydantic import BaseModel
 from typing import Any
 
-from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner, RegistrarEvento, ComandoRegistrarEvento, ComandoCancelarCampaign, CancelarCampaign, ComandoCancelarPartner, CancelarPartner
+from .comandos import RegistrarCampaign, ComandoRegistrarCampaign, RegistrarPartner, ComandoRegistrarPartner, RegistrarEvento, ComandoRegistrarEvento, ComandoCancelarCampaign, CancelarCampaign, ComandoCancelarPartner, CancelarPartner, ComandoCancelarEvento, CancelarEvento
 from .consumidores import suscribirse_a_topico
 from .despachadores import Despachador
 from typing import Any
@@ -22,6 +22,7 @@ app = FastAPI(**app_configs)
 
 CAMPAIGN_HOST = os.getenv("CAMPAIGN_HOST", default="localhost:8001")
 PARTNER_HOST = os.getenv("PARTNER_HOST", default="localhost:8002")
+TRAKING_HOST = os.getenv("TRAKING_HOST", default="localhost:8003")
 
 class RegistrarCampaignRequest(BaseModel):
     nombre: str
@@ -150,3 +151,29 @@ async def crear_partner(request: RegistrarEventoRequest) -> dict[str, str]:
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-registrar-evento-conversion")
     return {"status": "ok"}
+
+@app.get("/eliminar-evento/{id}")
+async def eliminar_evento(id:str) -> Any:
+    payload = CancelarEvento(
+        id = id
+    )
+
+    comando = ComandoCancelarEvento(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=CancelarEvento.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-cancelar-evento")
+    return {"status": "ok"}
+
+@app.get("/obtener-eventos")
+async def obtener_eventos() -> Any:
+    eventos_json = requests.get(f'http://{TRAKING_HOST}/eventos').json()
+    return eventos_json
+
+@app.get("/obtener-eventos/{id}")
+async def obtener_evento(id:str) -> Any:
+    eventos_json = requests.get(f'http://{TRAKING_HOST}/eventos/{id}').json()
+    return eventos_json

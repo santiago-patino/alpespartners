@@ -8,9 +8,11 @@ from datetime import datetime
 from traking.seedwork.dominio.entidades import Entidad, AgregacionRaiz
 from dataclasses import dataclass, field
 from traking.modulos.dominio.eventos import EventoRegistrado, RegistroEventoFallido
+from typing import Optional
 
 @dataclass
 class Evento(AgregacionRaiz):
+    id: Optional[str] = None
     id_partner: str = ""
     id_campana: str = ""
     fecha: datetime = field(default_factory=datetime.utcnow)

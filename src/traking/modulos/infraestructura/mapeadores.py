@@ -108,6 +108,7 @@ class MapeadorEvento(Mapeador):
 
     def dto_a_entidad(self, dto: EventoDTO):
         return Evento(
+            id=dto.id,
             id_partner=dto.id_partner,
             id_campana=dto.id_campana,
             fecha=dto.fecha

@@ -118,8 +118,4 @@ async def obtener_partner(id: str) -> Any:
 async def health() -> dict[str, str]:
     return {"status": "ok"}
 
-@app.get("/health", include_in_schema=False)
-async def health() -> dict[str, str]:
-    return {"status": "ok"}
-
 # app.include_router(v1, prefix="/v1", tags=["Version 1"])
