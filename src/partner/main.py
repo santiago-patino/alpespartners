@@ -23,10 +23,10 @@ async def lifespan(app: FastAPI):
     importar_modelos_alchemy()
     init_db()
     
-    task1 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))
+    # task1 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-partner", "sub-com-registrar-partner", ComandoRegistrarPartner))
     task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-partner", "sub-com-cancelar-partner", ComandoCancelarPartner))
-    tasks.extend([task1, task2, task3])
+    tasks.extend([task2, task3])
 
     yield
 
@@ -57,6 +57,7 @@ async def prueba_partner_registrado() -> dict[str, str]:
 @app.get("/prueba-registrar-partner", include_in_schema=False)
 async def prueba_registrar_usuario() -> dict[str, str]:
     payload = RegistrarPartner(
+        id_campaign = "camp12345",
         nombre = "Juan",
         tipo = TipoPartner.influencer,
         informacion_perfil = "Influencer de moda con 200k seguidores",

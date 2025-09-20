@@ -13,11 +13,13 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Partner(AgregacionRaiz):
+    id_campaign: str = ""
     nombre: str = ""
     informacion_perfil: str = ""
     tipo: str = ""
     
     def crear_partner(self, partner: "Partner"):
+        self.id_campaign = partner.id_campaign
         self.nombre = partner.nombre
         self.informacion_perfil = partner.informacion_perfil
         self.tipo = partner.tipo
@@ -25,12 +27,14 @@ class Partner(AgregacionRaiz):
         self.agregar_evento(
             PartnerRegistrado(
                 id=str(self.id),
+                id_campaign=str(self.id_campaign),
                 nombre=self.nombre,
                 tipo=self.tipo,
                 informacion_perfil=self.informacion_perfil
             ),
             RegistroPartnerFallido(
                 id=str(self.id),
+                id_campaign=str(self.id_campaign),
                 nombre=self.nombre,
                 tipo=self.tipo,
                 informacion_perfil=self.informacion_perfil

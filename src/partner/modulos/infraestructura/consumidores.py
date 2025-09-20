@@ -27,7 +27,7 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                         #await manejar_evento_partner(datos)
                     elif topico == "comando-registrar-partner":
                         print(f'Comando registrar: {datos}')
-                        comando = ComandoRegistrarPartner(datos.data.nombre, datos.data.tipo, datos.data.informacion_perfil)
+                        comando = ComandoRegistrarPartner(datos.data.id_campaign, datos.data.nombre, datos.data.tipo, datos.data.informacion_perfil)
                         ejecutar_commando(comando)
                     elif topico == "comando-cancelar-partner":
                         print(f'Comando cancelar: {datos}')

@@ -46,6 +46,7 @@ async def crear_campaña(request: RegistrarCampaignRequest) -> dict[str, str]:
     return {"status": "ok"}
 
 class RegistrarPartnerRequest(BaseModel):
+    id_campaign: str
     nombre: str
     tipo: str
     informacion_perfil: str
@@ -53,6 +54,7 @@ class RegistrarPartnerRequest(BaseModel):
 @app.post("/crear-partner", include_in_schema=False)
 async def crear_partner(request: RegistrarPartnerRequest) -> dict[str, str]:
     payload = RegistrarPartner(
+        id_campaign = request.id_campaign,  # ID de campaña fijo para la prueba
         nombre = request.nombre,
         tipo = request.tipo,
         informacion_perfil = request.informacion_perfil,

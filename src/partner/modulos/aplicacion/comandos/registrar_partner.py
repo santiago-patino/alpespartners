@@ -13,6 +13,7 @@ import time
 
 @dataclass
 class ComandoRegistrarPartner(Comando):
+    id_campaign: str
     nombre: str
     tipo: str
     informacion_perfil: str
@@ -21,6 +22,7 @@ class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
 
     def a_entidad(self, comando: ComandoRegistrarPartner) -> Partner:
         params = dict(
+            id_campaign=comando.id_campaign,
             nombre=comando.nombre,
             tipo=comando.tipo,
             informacion_perfil=comando.informacion_perfil,
@@ -46,10 +48,10 @@ class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
         UnidadTrabajoPuerto.set_uow(uow)
         
         # Registrar batch y commit
-        # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, partner)
-        # UnidadTrabajoPuerto.commit()
+        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, partner)
+        UnidadTrabajoPuerto.commit()
         
-        UnidadTrabajoPuerto.registrar_failure(partner)
+        #UnidadTrabajoPuerto.registrar_failure(partner)
         
         
 

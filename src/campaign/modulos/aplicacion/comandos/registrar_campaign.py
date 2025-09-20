@@ -11,6 +11,11 @@ import datetime
 import time
 import json
 
+from campaign.modulos.infraestructura.despachadores import Despachador
+from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarPartner, RegistrarPartner
+from campaign.modulos.infraestructura.v1 import TipoPartner
+from campaign.seedwork.infraestructura import utils
+
 @dataclass
 class ComandoRegistrarCampaign(Comando):
     nombre: str
@@ -57,7 +62,9 @@ class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
         UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, campaign)
         UnidadTrabajoPuerto.commit()
         
-        UnidadTrabajoPuerto.registrar_failure(campaign)
+        # UnidadTrabajoPuerto.registrar_failure(campaign)
+        
+        comando_registrar_partners(campaign)
         
         
 
@@ -65,3 +72,26 @@ class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
 def ejecutar_comando_registrar_campaign(comando: ComandoRegistrarCampaign):
     handler = RegistrarCampaignHandler()
     handler.handle(comando)
+    
+def comando_registrar_partners(data):
+    participantes = data.participantes
+    
+    despachador = Despachador()
+    
+    for p in participantes:
+        print(p)
+        payload = RegistrarPartner(
+            id_campaign=str(data.id),
+            nombre=p.nombre,
+            tipo=TipoPartner[p.tipo.lower()],  
+            informacion_perfil=p.informacion_perfil,
+            fecha_creacion=utils.time_millis()
+        )
+        comando = ComandoRegistrarPartner(
+            time=utils.time_millis(),
+            ingestion=utils.time_millis(),
+            datacontenttype=RegistrarPartner.__name__,
+            data=payload
+        )
+      
+        despachador.publicar_mensaje(comando, "comando-registrar-partner")

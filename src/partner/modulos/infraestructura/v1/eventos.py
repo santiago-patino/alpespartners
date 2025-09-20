@@ -7,6 +7,7 @@ from partner.seedwork.dominio.eventos import (EventoDominio)
 
 class PartnerRegistrado(Record):
     id = String()
+    id_campaign = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()
@@ -14,6 +15,7 @@ class PartnerRegistrado(Record):
     
 class RegistroPartnerFallido(Record):
     id = String()
+    id_campaign = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()

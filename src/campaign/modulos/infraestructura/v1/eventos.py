@@ -35,6 +35,7 @@ class EventoCampaign(EventoIntegracion):
         
 class PartnerRegistrado(Record):
     id = String()
+    id_campaign = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()
@@ -42,6 +43,7 @@ class PartnerRegistrado(Record):
 
 class RegistroPartnerFallido(Record, EventoDominio):
     id = String()
+    id_campaign = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()

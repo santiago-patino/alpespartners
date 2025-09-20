@@ -36,7 +36,8 @@ class MapadeadorEventosPartner(Mapeador):
             from .v1.eventos import PartnerRegistrado, EventoPartner
             
             payload = PartnerRegistrado(
-                id=str(evento.id), 
+                id=str(evento.id),
+                id_campaign=str(evento.id_campaign),
                 nombre=str(evento.nombre), 
                 tipo=evento.tipo,
                 informacion_perfil=str(evento.informacion_perfil),
@@ -46,7 +47,7 @@ class MapadeadorEventosPartner(Mapeador):
             evento_integracion.id = str(evento.id)
             evento_integracion.time = int(utils.time_millis())
             evento_integracion.specversion = str(version)
-            evento_integracion.type = 'PartnerCreada'
+            evento_integracion.type = 'partner_registrado'
             evento_integracion.datacontenttype = 'AVRO'
             evento_integracion.service_name = 'alpespartners'
             evento_integracion.partner_registrado = payload
@@ -65,6 +66,7 @@ class MapadeadorEventosPartner(Mapeador):
             
             payload = RegistroPartnerFallido(
                 id=str(evento.id), 
+                id_campaign=str(evento.id_campaign),
                 nombre=str(evento.nombre), 
                 tipo=evento.tipo,
                 informacion_perfil=str(evento.informacion_perfil),
@@ -107,6 +109,7 @@ class MapeadorPartner(Mapeador):
         tipo = TipoPartner.influencer if isinstance(entidad, Influencer) else TipoPartner.affiliate
         return PartnerDTO(
             id=entidad.id,
+            id_campaign=entidad.id_campaign,
             nombre=entidad.nombre,
             tipo=tipo,
             informacion_perfil=entidad.informacion_perfil
@@ -114,6 +117,7 @@ class MapeadorPartner(Mapeador):
 
     def dto_a_entidad(self, dto: PartnerDTO):
         return Partner(
+            id_campaign=dto.id_campaign,
             nombre=dto.nombre,
             tipo=dto.tipo,
             informacion_perfil=dto.informacion_perfil

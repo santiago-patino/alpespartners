@@ -32,6 +32,7 @@ class TipoPartner(Enum):
 
 
 class RegistrarPartner(Record):
+    id_campaign = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()

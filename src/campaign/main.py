@@ -26,10 +26,10 @@ async def lifespan(app: FastAPI):
     init_db()
     
     # task1 = asyncio.ensure_future(suscribirse_a_topico("evento-campaigns", "sub-campaign", EventoCampaign))
-    # task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-campaign", "sub-com-registrar-campaign", ComandoRegistrarCampaign))
+    task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-campaign", "sub-com-registrar-campaign", ComandoRegistrarCampaign))
     task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-campaign", "sub-com-cancelar-campaign", ComandoCancelarCampaign))
     task4 = asyncio.ensure_future(suscribirse_a_topico("evento-partners", "sub-partner", EventoPartner))
-    tasks.extend([task3, task4])
+    tasks.extend([task2, task3, task4])
 
     yield
 

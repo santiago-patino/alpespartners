@@ -57,9 +57,9 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
         print(f'[COMPENSACION] Evento Origen: {type(evento).__name__}, Comando Destino: {tipo_comando.__name__ if tipo_comando else "None"}')
         # print(evento)
         despachador = Despachador()
-        if tipo_comando != ComandoCancelarCampaign:
+        if tipo_comando == ComandoCancelarCampaign:
             payload = CancelarCampaign(
-                id = "06f4addd-4601-4c20-95cf-3b1596014284"
+                id = evento.id_campaign
             )
         
             comando = ComandoCancelarCampaign(
@@ -70,7 +70,7 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
             )
             despachador.publicar_mensaje(comando, "comando-cancelar-campaign")
             
-        elif tipo_comando == ComandoCancelarCampaign:
+        elif tipo_comando == ComandoCancelarPartner:
             payload = CancelarPartner(
                 id = "06f4addd-4601-4c20-95cf-3b1596014284"
             )
@@ -82,8 +82,6 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
                 data = payload
             )
             despachador.publicar_mensaje(comando, "comando-cancelar-partner")
-        
-        
 
 # Listener/Handler para redireccionar eventos de dominio a la saga
 def oir_mensaje(signal, sender, **kwargs):
