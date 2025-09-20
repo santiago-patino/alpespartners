@@ -19,7 +19,7 @@ class CoordinadorSaga(ABC):
 
     def publicar_comando(self,evento: EventoDominio, tipo_comando: type):
         comando = self.construir_comando(evento, tipo_comando)
-        ejecutar_commando(comando)
+        #ejecutar_commando(comando)
 
     @abstractmethod
     def inicializar_pasos(self):

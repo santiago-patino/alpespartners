@@ -9,12 +9,15 @@ from campaign.seedwork.infraestructura import utils
 # from campaign.modulos.sagas.aplicacion.comandos.gds import ConfirmarReserva, RevertirConfirmacion
 
 from campaign.modulos.aplicacion.comandos.registrar_campaign import ComandoRegistrarCampaign
-from campaign.modulos.aplicacion.comandos.cancelar_campaign import ComandoCancelarCampaign
+# from campaign.modulos.aplicacion.comandos.cancelar_campaign import ComandoCancelarCampaign
 from campaign.modulos.dominio.eventos import CampaignRegistrada, RegistroCampaignFallido
 
 # from campaign.modulos.sagas.dominio.eventos.partner import PartnerRegistrado, RegistroPartnerFallido
 from campaign.modulos.infraestructura.v1.eventos import PartnerRegistrado, RegistroPartnerFallido
-from campaign.modulos.sagas.aplicacion.comandos.partner import ComandoRegistrarPartner, ComandoCancelarPartner
+from campaign.modulos.sagas.aplicacion.comandos.partner import ComandoRegistrarPartner
+from campaign.modulos.infraestructura.v1.comandos import CancelarCampaign, ComandoCancelarCampaign, ComandoCancelarPartner, CancelarPartner
+
+from campaign.modulos.infraestructura.despachadores import Despachador
 
 # from aeroalpes.modulos.vuelos.aplicacion.comandos.aprobar_reserva import AprobarReserva
 # from aeroalpes.modulos.vuelos.aplicacion.comandos.cancelar_reserva import CancelarReserva
@@ -52,11 +55,33 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
     def construir_comando(self, evento: EventoDominio, tipo_comando: type) -> Comando:
         # Transforma un evento en la entrada de un comando
         print(f'[COMPENSACION] Evento Origen: {type(evento).__name__}, Comando Destino: {tipo_comando.__name__ if tipo_comando else "None"}')
-
-        if tipo_comando == ComandoCancelarCampaign:
-            return ComandoCancelarCampaign(
-                id = "05247050-6112-4851-9e1d-1502eed40213"
+        # print(evento)
+        despachador = Despachador()
+        if tipo_comando != ComandoCancelarCampaign:
+            payload = CancelarCampaign(
+                id = "06f4addd-4601-4c20-95cf-3b1596014284"
             )
+        
+            comando = ComandoCancelarCampaign(
+                time=utils.time_millis(),
+                ingestion=utils.time_millis(),
+                datacontenttype=CancelarCampaign.__name__,
+                data = payload
+            )
+            despachador.publicar_mensaje(comando, "comando-cancelar-campaign")
+            
+        elif tipo_comando == ComandoCancelarCampaign:
+            payload = CancelarPartner(
+                id = "06f4addd-4601-4c20-95cf-3b1596014284"
+            )
+        
+            comando = ComandoCancelarPartner(
+                time=utils.time_millis(),
+                ingestion=utils.time_millis(),
+                datacontenttype=CancelarPartner.__name__,
+                data = payload
+            )
+            despachador.publicar_mensaje(comando, "comando-cancelar-partner")
         
         
 

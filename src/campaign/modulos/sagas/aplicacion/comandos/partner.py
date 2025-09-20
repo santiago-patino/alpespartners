@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from partner.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
 from partner.seedwork.infraestructura.utils import time_millis
 from partner.modulos.infraestructura.v1 import TipoPartner
+from campaign.seedwork.aplicacion.comandos import Comando
 import uuid
 
 
@@ -28,15 +29,21 @@ class ComandoRegistrarPartner(ComandoIntegracion):
 class CancelarPartner(Record):
     id = String()
 
-class ComandoCancelarPartner(ComandoIntegracion):
-    id = String(default=str(uuid.uuid4()))
-    time = Long()
-    ingestion = Long(default=time_millis())
-    specversion = String(default="v1")
-    type = String(default="CancelarPartner")
-    datacontenttype = String()
-    service_name = String(default="partner.aeroalpes")
-    data = CancelarPartner
+@dataclass
+class ComandoCancelarPartner(Comando):
+    id: str
+    # def __init__(self, id):
+    #     self.id = id
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class ComandoCancelarPartner(Comando):
+#     id = String(default=str(uuid.uuid4()))
+#     time = Long()
+#     ingestion = Long(default=time_millis())
+#     specversion = String(default="v1")
+#     type = String(default="CancelarPartner")
+#     datacontenttype = String()
+#     service_name = String(default="partner.aeroalpes")
+#     data = CancelarPartner
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
