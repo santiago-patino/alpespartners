@@ -8,6 +8,7 @@ from datetime import datetime
 from partner.seedwork.dominio.entidades import Entidad, AgregacionRaiz
 from partner.modulos.dominio.eventos import PartnerRegistrado, RegistroPartnerFallido
 from dataclasses import dataclass, field
+from partner.modulos.infraestructura.v1 import TipoPartner
 
 # from .objetos_valor import Nombre, Email, Cedula, Rut
 
@@ -29,14 +30,14 @@ class Partner(AgregacionRaiz):
                 id=str(self.id),
                 id_campaign=str(self.id_campaign),
                 nombre=self.nombre,
-                tipo=self.tipo,
+                tipo=TipoPartner.influencer,
                 informacion_perfil=self.informacion_perfil
             ),
             RegistroPartnerFallido(
                 id=str(self.id),
                 id_campaign=str(self.id_campaign),
                 nombre=self.nombre,
-                tipo=self.tipo,
+                tipo=TipoPartner.influencer,
                 informacion_perfil=self.informacion_perfil
             )
         )

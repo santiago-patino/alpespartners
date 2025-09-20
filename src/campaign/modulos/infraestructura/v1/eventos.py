@@ -12,10 +12,18 @@ class Participante(Record):
     nombre = String()
     informacion_perfil = String()
 
-class CampaignRegistradaPayload(Record):
+class CampaignRegistrada(Record):
     id = String()
     nombre = String()
-    presupuesto = String()
+    presupuesto = Float()
+    divisa = String()
+    marca_id = String()
+    participantes = String()
+    
+class RegistroCampaignFallido(EventoDominio):
+    id = String()
+    nombre = String()
+    presupuesto = Float()
     divisa = String()
     marca_id = String()
     participantes = String()
@@ -28,7 +36,7 @@ class EventoCampaign(EventoIntegracion):
     type = String(default="EventoCampaign")
     datacontenttype = String()
     service_name = String(default="campaign.aeroalpes")
-    campaign_registrada = CampaignRegistradaPayload
+    campaign_registrada = CampaignRegistrada
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

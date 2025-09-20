@@ -51,6 +51,8 @@ class MapadeadorEventosPartner(Mapeador):
             evento_integracion.datacontenttype = 'AVRO'
             evento_integracion.service_name = 'alpespartners'
             evento_integracion.partner_registrado = payload
+            
+            print(evento_integracion.__class__)
 
             return evento_integracion
                     

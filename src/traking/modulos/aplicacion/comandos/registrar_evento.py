@@ -38,10 +38,10 @@ class RegistrarEventoHandler(RegistrarEventoBaseHandler):
         UnidadTrabajoPuerto.set_uow(uow)
         
         # Registrar batch y commit
-        #UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, evento)
-        #UnidadTrabajoPuerto.commit()
+        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, evento)
+        UnidadTrabajoPuerto.commit()
         
-        UnidadTrabajoPuerto.registrar_failure(evento)
+        #UnidadTrabajoPuerto.registrar_failure(evento)
 
 @comando.register(ComandoRegistrarEvento)
 def ejecutar_comando_registrar_evento(comando: ComandoRegistrarEvento):

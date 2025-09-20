@@ -5,7 +5,7 @@ from campaign.api.v1.router import router as v1
 from contextlib import asynccontextmanager
 
 from campaign.modulos.infraestructura.consumidores import suscribirse_a_topico
-from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistradaPayload, EventoPartner, EventoTraking
+from campaign.modulos.infraestructura.v1.eventos import EventoCampaign, CampaignRegistrada, EventoPartner, EventoTraking
 from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarCampaign, RegistrarCampaign, Participante, ComandoCancelarCampaign, CancelarCampaign
 from campaign.modulos.infraestructura.despachadores import Despachador
 from campaign.seedwork.infraestructura import utils
@@ -24,6 +24,7 @@ tasks = []
 async def lifespan(app: FastAPI):
     importar_modelos_alchemy()
     init_db()
+    import campaign.modulos.sagas.aplicacion
     
     # task1 = asyncio.ensure_future(suscribirse_a_topico("evento-campaigns", "sub-campaign", EventoCampaign))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-campaign", "sub-com-registrar-campaign", ComandoRegistrarCampaign))
@@ -49,7 +50,7 @@ async def prueba_campaign_registrado() -> dict[str, str]:
             "informacion_perfil": "Influencer de moda con 200k seguidores"
         },
     ]
-    payload = CampaignRegistradaPayload(
+    payload = CampaignRegistrada(
         id = "1232321321", 
         nombre = "Juan",
         presupuesto = 10000,
@@ -61,7 +62,7 @@ async def prueba_campaign_registrado() -> dict[str, str]:
     evento = EventoCampaign(
         time=utils.time_millis(),
         ingestion=utils.time_millis(),
-        datacontenttype=CampaignRegistradaPayload.__name__,
+        datacontenttype=CampaignRegistrada.__name__,
         campaign_registrado = payload
     )
     despachador = Despachador()

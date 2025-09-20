@@ -1,6 +1,8 @@
 from pulsar.schema import *
 from dataclasses import dataclass, field
 from campaign.seedwork.dominio.eventos import (EventoDominio)
+from datetime import datetime
+import uuid
 
 class EventoCampaign(EventoDominio):
     ...

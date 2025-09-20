@@ -81,7 +81,7 @@ async def health() -> dict[str, str]:
 @app.get("/prueba-cancelar-partner", include_in_schema=False)
 async def prueba_cancelar_partner() -> dict[str, str]:
     payload = CancelarPartner(
-        id = "dab168fe-fdd7-418f-9f99-10c67bc519b7"
+        id = "e0b0ad24-f594-4e4c-b313-bd025fadf6fb"
     )
 
     comando = ComandoCancelarPartner(

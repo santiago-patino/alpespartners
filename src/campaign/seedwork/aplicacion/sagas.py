@@ -48,7 +48,7 @@ class Inicio(Paso):
 
 @dataclass
 class Fin(Paso):
-    ...
+    index: int = 0
 
 @dataclass
 class Transaccion(Paso):
@@ -79,13 +79,16 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
         raise Exception("Evento no hace parte de la transacción")
                 
     def es_ultima_transaccion(self, index):
-        return len(self.pasos) - 1
+        return len(self.pasos) - 1 == index + 1
 
     def procesar_evento(self, evento: EventoDominio):
         paso, index = self.obtener_paso_dado_un_evento(evento)
-        if self.es_ultima_transaccion(index) and not isinstance(evento, paso.error):
+        isError = evento.__class__.__name__ == paso.error.__name__;
+        isEvento = evento.__class__.__name__ == paso.evento.__name__;
+        self.persistir_en_saga_log(self.pasos[index])
+        if self.es_ultima_transaccion(index) and not isError:
             self.terminar()
-        elif isinstance(evento, paso.error):
+        elif isError:
             self.publicar_comando(evento, self.pasos[index-1].compensacion)
-        elif isinstance(evento, paso.evento):
-            self.publicar_comando(evento, self.pasos[index+1].compensacion)
+        elif isEvento:
+            self.publicar_comando(evento, self.pasos[index+1].comando)

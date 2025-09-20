@@ -36,12 +36,12 @@ class MapadeadorEventosCampaign(Mapeador):
 
     def _entidad_a_reserva_creada(self, entidad: CampaignRegistrada, version=LATEST_VERSION):
         def v1(evento):
-            from .v1.eventos import CampaignRegistradaPayload, EventoCampaign
+            from .v1.eventos import CampaignRegistrada, EventoCampaign
 
-            payload = CampaignRegistradaPayload(
-                id=str(evento.id), 
+            payload = CampaignRegistrada(
+                id=str(evento.id),
                 nombre=str(evento.nombre), 
-                presupuesto=str(evento.presupuesto), 
+                presupuesto=evento.presupuesto, 
                 divisa=str(evento.divisa),
                 marca_id=str(evento.marca_id),
                 participantes=str(evento.participantes), 

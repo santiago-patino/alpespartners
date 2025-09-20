@@ -37,12 +37,13 @@ class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
             marca_id=comando.marca_id,
             participantes=[
                 Participante(
-                    id=p["id"],
+                    id=str(p["id"]),
                     tipo=p["tipo"],
                     nombre=p["nombre"],
                     informacion_perfil=p["informacion_perfil"]
                 )
                 for p in participantes_list
+                if isinstance(p, dict)  # ✅ aseguramos que sea dict
             ]
         )
         
@@ -64,7 +65,7 @@ class RegistrarCampaignHandler(RegistrarCampaignBaseHandler):
         
         # UnidadTrabajoPuerto.registrar_failure(campaign)
         
-        comando_registrar_partners(campaign)
+        # comando_registrar_partners(campaign)
         
         
 
@@ -79,7 +80,6 @@ def comando_registrar_partners(data):
     despachador = Despachador()
     
     for p in participantes:
-        print(p)
         payload = RegistrarPartner(
             id_campaign=str(data.id),
             nombre=p.nombre,

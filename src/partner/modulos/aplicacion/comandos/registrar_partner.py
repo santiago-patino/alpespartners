@@ -56,7 +56,7 @@ class RegistrarPartnerHandler(RegistrarPartnerBaseHandler):
         
         #UnidadTrabajoPuerto.registrar_failure(partner)
         
-        comando_registrar_eventos(partner)
+        # comando_registrar_eventos(partner)
         
         
 
@@ -66,7 +66,6 @@ def ejecutar_comando_registrar_partner(comando: ComandoRegistrarPartner):
     handler.handle(comando)
     
 def comando_registrar_eventos(data):
-    print(data)
     
     payload = RegistrarEvento(
         id_partner = str(data.id),
