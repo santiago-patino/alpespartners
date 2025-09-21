@@ -9,6 +9,12 @@ class EventoRegistrado(Record):
     id_partner = String()
     id_campana = String()
     fecha = Long()
+    
+class RegistroEventoFallido(Record):
+    id = String()
+    id_partner = String()
+    id_campana = String()
+    fecha = Long()
 
 class EventoTraking(EventoIntegracion):
     id = String(default=str(uuid.uuid4()))
@@ -18,7 +24,8 @@ class EventoTraking(EventoIntegracion):
     type = String(default="EventoTraking")
     datacontenttype = String()
     service_name = String(default="traking.aeroalpes")
-    data = EventoRegistrado
+    evento_registrado = EventoRegistrado
+    evento_fallido = RegistroEventoFallido
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
