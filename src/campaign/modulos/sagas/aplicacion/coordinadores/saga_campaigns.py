@@ -4,16 +4,10 @@ from campaign.seedwork.dominio.eventos import EventoDominio
 import uuid
 from campaign.seedwork.infraestructura import utils
 
-# from campaign.modulos.sagas.aplicacion.comandos.cliente import RegistrarUsuario, ValidarUsuario
-# from campaign.modulos.sagas.aplicacion.comandos.pagos import PagarReserva, RevertirPago
-# from campaign.modulos.sagas.aplicacion.comandos.gds import ConfirmarReserva, RevertirConfirmacion
 
 from campaign.modulos.aplicacion.comandos.registrar_campaign import ComandoRegistrarCampaign
-# from campaign.modulos.aplicacion.comandos.cancelar_campaign import ComandoCancelarCampaign
 from campaign.modulos.dominio.eventos import RegistroCampaignFallido, CampaignRegistrada
 
-# from campaign.modulos.sagas.dominio.eventos.partner import PartnerRegistrado, RegistroPartnerFallido
-# from campaign.modulos.sagas.aplicacion.comandos.partner import ComandoRegistrarPartner
 from campaign.modulos.infraestructura.v1.eventos import PartnerRegistrado, RegistroPartnerFallido, EventoRegistrado, RegistroEventoFallido
 from campaign.modulos.infraestructura.v1.comandos import ComandoRegistrarPartner, RegistrarPartner, ComandoRegistrarCampaign as ComandoRegistrarCampaignV1, RegistrarCampaign, CancelarCampaign, ComandoCancelarCampaign, ComandoCancelarPartner, CancelarPartner, ComandoRegistrarEvento, RegistrarEvento, ComandoCancelarEvento, CancelarEvento
 
@@ -24,21 +18,8 @@ from campaign.modulos.infraestructura.v1 import TipoPartner
 from campaign.modulos.infraestructura.despachadores import Despachador
 import json
 
-# from aeroalpes.modulos.vuelos.aplicacion.comandos.aprobar_reserva import AprobarReserva
-# from aeroalpes.modulos.vuelos.aplicacion.comandos.cancelar_reserva import CancelarReserva
-# from aeroalpes.modulos.vuelos.dominio.eventos.reservas import ReservaCreada, ReservaCancelada, ReservaAprobada, CreacionReservaFallida, AprobacionReservaFallida
-# from aeroalpes.modulos.sagas.dominio.eventos.pagos import ReservaPagada, PagoRevertido, PagoFallido
-# from aeroalpes.modulos.sagas.dominio.eventos.gds import ReservaGDSConfirmada, ConfirmacionGDSRevertida, ConfirmacionFallida
-
-# from campaign.modulos.sagas.dominio.eventos.campaign import CampaignRegistrada
-
 
 class CoordinadorCampañas(CoordinadorOrquestacion):
-    
-    # def __init__(self):
-    #     print(CampaignRegistrada.__class__)
-        # super().__init__()
-        # self.id_correlacion = uuid.uuid4()
 
     def inicializar_pasos(self):
         self.pasos = [
@@ -56,36 +37,15 @@ class CoordinadorCampañas(CoordinadorOrquestacion):
         self.persistir_en_saga_log(self.pasos[-1])
 
     def persistir_en_saga_log(self, mensaje):
-        # TODO Persistir estado en DB
-        # Probablemente usted podría usar un repositorio para ello
         print(f"[SAGA LOG] {type(mensaje).__name__}: {mensaje}")
-        # En una implementación real, aquí se guardaría en base de datos
 
     def construir_comando(self, evento: EventoDominio, tipo_comando: type) -> Comando:
         # Transforma un evento en la entrada de un comando
+        # print(evento)
         evento_nombre = type(evento).__name__ if not isinstance(evento, type) else evento.__name__
         print(f'[COMPENSACION] Evento Origen: {evento_nombre}, Comando Destino: {type(tipo_comando).__name__ if tipo_comando else "None"}')
-        # print(f'[COMPENSACION] Evento Origen: {type(evento).__name__}, Comando Destino: {tipo_comando.__name__ if tipo_comando else "None"}')
         despachador = Despachador()
-        if tipo_comando == ComandoRegistrarCampaign:
-            print("HERE")
-            # print(evento)
-            # payload = RegistrarCampaign(
-            #     nombre = evento.nombre,
-            #     presupuesto = evento.presupuesto,
-            #     divisa = evento.divisa,
-            #     marca_id = evento.marca_id,
-            #     participantes=json.dumps(evento.participantes)
-            # )
-
-            # comando = ComandoRegistrarCampaignV1(
-            #     time=utils.time_millis(),
-            #     ingestion=utils.time_millis(),
-            #     datacontenttype=RegistrarCampaign.__name__,
-            #     data = payload
-            # )
-            # despachador.publicar_mensaje(comando, "comando-registrar-campaign")
-        elif tipo_comando == ComandoRegistrarPartner:
+        if tipo_comando == ComandoRegistrarPartner:
             participantes = json.loads(evento.participantes)
             for p in participantes:
                 payload = RegistrarPartner(

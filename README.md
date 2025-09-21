@@ -1,6 +1,6 @@
-# Alpes Partners - Entrega 4
+# Alpes Partners - Entrega 5
 
-Repositorio del proyecto Alpes Partner, se implementan los microservicios correspondientes a la entrega. Se implementan el registro y comunicacion por eventos usando el patron CQRS y eventos de dominio.
+Repositorio del proyecto Alpes Partner, correspondiente a la entrega 5. Para esta entrega se implementaron las sagas generan una coreografia entre servicios. Ejecutandose a partir de el resultado de cada uno de los eventos de integracion.
 
 ## Estructura del proyecto
 
@@ -35,6 +35,11 @@ Si requiere ejecutar todo la base de datos
 docker-compose --profile db up
 ```
 
+### Correr docker-compose usando profiles
+```bash
+docker-compose --profile <pulsar|db> up
+```
+
 ### Ejecutar Servicios
 
 Primero debe instalar el requirements.txt. Recuerde navegar a la ruta /src
@@ -64,74 +69,82 @@ uvicorn partner.main:app --host localhost --port 8002 --reload
 uvicorn traking.main:app --host localhost --port 8003 --reload
 ```
 
-## Ejecutar Request
+## Documentacion Sagas
 
-Los siguientes JSON pueden ser usados para probar el API:
+#### Escenarios
 
-### Crear Campaign BFF
-
-Genera el comando hacia el topico "comando-registrar-campaign". El cual es procesado si el servicio campaign esta activo
-
-- **Endpoint**: `/crear-campaign`
-- **Método**: `POST`
-- **Headers**: `Content-Type='aplication/json'`
-
-```json
-{
-    "nombre": "Test",
-    "presupuesto": 10000,
-    "divisa": "USD",
-    "marca_id": "12dqweqwqdsxq",
-    "participantes": [
-        {
-          "id": "p-98765",
-          "tipo": "Influencer",
-          "nombre": "Alice Doe",
-          "informacion_perfil": "Influencer de moda con 200k seguidores"
-        },
-        {
-          "id": "p-54321",
-          "tipo": "Affiliate",
-          "nombre": "Blog Moda Trends",
-          "informacion_perfil": "Sitio web con 50k visitas mensuales"
-        }
-  ]
-}
-```
-
-### Crear Partner BFF
-
-Genera el comando hacia el topico "comando-registrar-partner". El cual es procesado si el servicio partner esta activo
-
-- **Endpoint**: `/crear-partner`
-- **Método**: `POST`
-- **Headers**: `Content-Type='aplication/json'`
-
-```json
-{
-    "nombre": "Alice Doe",
-    "tipo": "influencer",
-    "informacion_perfil": "Influencer de moda con 200k seguidores"
-}
-```
-
-### Registrar Evento Conversion
-
-Genera el comando hacia el topico "comando-registrar-evento-conversion". El cual es procesado si el servicio traking esta activo
-
-- **Endpoint**: `/registrar-evento`
-- **Método**: `POST`
-- **Headers**: `Content-Type='aplication/json'`
-
-```json
-{
-    "id_partner": "1huhaskjhasd",
-    "id_campana": "213uhuihaujjjkjj"
-}
-```
-
-
-### Correr docker-compose usando profiles
 ```bash
-docker-compose --profile <pulsar|db> up
+#  Exitoso
+Paso 1: RegistrarCampaña ✅
+Paso 2: RegistrarPartner ✅
+Paso 3: RegistrarEvento ✅
+Paso 4: AprobarReserva ✅
 ```
+
+```bash
+#  Registro Evento Fallido
+Paso 1: RegistrarCampaña ✅
+Paso 2: RegistrarPartner ✅
+Paso 3: RegistrarEvento ❌ FALLA
+    ↓
+Compensaciones:
+1️⃣ CancelarPartner (Paso 2)
+2️⃣ CancelarCampaña (Paso 1)
+```
+
+```bash
+#  Registro Partner Fallido
+Paso 1: RegistrarCampaña ✅
+Paso 2: RegistrarPartner ❌ FALLA
+Paso 3: RegistrarEvento
+    ↓
+Compensaciones:
+1️⃣ CancelarCampaña (Paso 1)
+```
+
+### Pasos Sagas
+
+Para esta entrega el servicio campaign, se encarga de realizar la coreografia entre los otros servicios, ejecutando los comandos y reaccionando a los eventos de integracion asociados
+
+Archivo:  
+`src/campaign/modulos/sagas/aplicacion/coordinadores/saga_campaigns.py`
+
+```bash
+Inicio (index=0)
+
+Transaccion (
+  index=1,
+  comando=ComandoRegistrarCampaign,
+  evento=CampaignRegistrada,
+  error=RegistroCampaignFallido,
+  compensacion=ComandoCancelarCampaign
+)
+
+Transaccion (
+  index=2,
+  comando=ComandoRegistrarPartner,
+  evento=PartnerRegistrado,
+  error=RegistroPartnerFallido,
+  compensacion=ComandoCancelarPartner
+)
+
+Transaccion (
+  index=3,
+  comando=ComandoRegistrarEvento,
+  evento=EventoRegistrado,
+  error=RegistroEventoFallido,
+  compensacion=ComandoCancelarEvento
+)
+
+Fin (index=4)
+```
+
+## Documentacion Postman
+
+Esta documentacion corresponde a las solicitudes realizadas directamente al BFF. El cual genera los eventos correspondientes o realiza las peticiones HTTP en el caso de los querys.
+
+Puede descargar el archivo json e importarlo en su postman
+
+### Ejecucion Local
+[📥 Descargar colección Postman](./AlpesPartners.postman_collection.json)
+
