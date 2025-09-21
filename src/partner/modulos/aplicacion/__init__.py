@@ -1,4 +1,5 @@
-# from pydispatch import dispatcher
-# from .handlers import HandlerReservaDominio
+from pydispatch import dispatcher
+from .handlers import HandlerPartnerDominio
 
-# dispatcher.connect(HandlerReservaDominio.handle_reserva_creada, signal='ReservaCreadaDominio')
+dispatcher.connect(HandlerPartnerDominio.handle_partner_creado, signal='PartnerRegistradoDominio')
+dispatcher.connect(HandlerPartnerDominio.handle_partner_fallido, signal='RegistroPartnerFallidoIntegracion')

@@ -1,23 +1,40 @@
 from partner.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado
 from partner.seedwork.aplicacion.queries import ejecutar_query as query
-from dataclasses import dataclass
+from partner.modulos.dominio.entidades import Partner
+
 from .base import ObtenerPartnerBaseHandler
 from partner.modulos.infraestructura.repositorios import RepositorioPartners
-from partner.modulos.infraestructura.mapeadores import MapeadorPartner
+from partner.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from partner.config.uow import UnidadTrabajoSQLAlchemy
 import uuid
+from dataclasses import dataclass
 
 @dataclass
-class QueryObtenerPartner(Query):
+class ObtenerPartner(Query):
     id: str
 
 class ObtenerPartnerHandler(ObtenerPartnerBaseHandler):
 
-    def handle(self, query: QueryObtenerPartner) -> QueryResultado:
+    def handle(self, query) -> QueryResultado:
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPartners.__class__)
-        partner =  self.fabrica_partners.crear_objeto(repositorio.obtener_por_id(query.id), MapeadorPartner())
-        return QueryResultado(resultado=partner)
+        
+        uow = UnidadTrabajoSQLAlchemy()
+        UnidadTrabajoPuerto.set_uow(uow)
 
-@query.register(QueryObtenerPartner)
-def ejecutar_query_obtener_partner(query: QueryObtenerPartner):
+        partners = repositorio.obtener_por_id(query.id)
+
+        return QueryResultado(resultado=partner_a_dict(partners))
+    
+@query.register(ObtenerPartner)
+def ejecutar_query_obtener_partner(query: ObtenerPartner):
     handler = ObtenerPartnerHandler()
     return handler.handle(query)
+
+def partner_a_dict(partner):
+    return {
+        "id": str(partner.id),
+        "id_campaign": str(getattr(partner, "id_campaign", "")),
+        "nombre": getattr(partner, "nombre", ""),
+        "tipo": getattr(partner, "tipo", ""),
+        "informacion_perfil": getattr(partner, "informacion_perfil", "")
+    }
