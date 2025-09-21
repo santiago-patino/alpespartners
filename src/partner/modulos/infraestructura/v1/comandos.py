@@ -7,6 +7,7 @@ import uuid
 
 
 class RegistrarPartner(Record):
+    id_campaign = String()
     nombre = String()
     tipo = TipoPartner
     informacion_perfil = String()
@@ -21,6 +22,40 @@ class ComandoRegistrarPartner(ComandoIntegracion):
     datacontenttype = String()
     service_name = String(default="partner.aeroalpes")
     data = RegistrarPartner
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+class CancelarPartner(Record):
+    id = String()
+
+class ComandoCancelarPartner(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CancelarPartner")
+    datacontenttype = String()
+    service_name = String(default="partner.aeroalpes")
+    data = CancelarPartner
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+class RegistrarEvento(Record):
+    id_partner = String()
+    id_campana = String()
+    fecha = Long()
+
+class ComandoRegistrarEvento(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="RegistrarEvento")
+    datacontenttype = String()
+    service_name = String(default="traking.aeroalpes")
+    data = RegistrarEvento
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
