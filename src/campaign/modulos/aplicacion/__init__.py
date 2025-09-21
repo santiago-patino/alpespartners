@@ -1,4 +1,6 @@
-# from pydispatch import dispatcher
-# from .handlers import HandlerReservaDominio
+from pydispatch import dispatcher
+from .handlers import HandlerCampaignDominio
+from campaign.modulos.dominio.eventos import CampaignRegistrada, RegistroCampaignFallido
 
-# dispatcher.connect(HandlerReservaDominio.handle_reserva_creada, signal='ReservaCreadaDominio')
+# dispatcher.connect(HandlerCampaignDominio.handle_campaign_creado, signal='CampaignRegistradaDominio')
+dispatcher.connect(HandlerCampaignDominio.handle_campaign_creado, signal=f'{CampaignRegistrada.__name__}Integracion')

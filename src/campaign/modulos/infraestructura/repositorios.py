@@ -23,13 +23,15 @@ class RepositorioCampaignsSQLAlchemy(RepositorioCampaigns):
         return self._fabrica_campaigns
 
     def obtener_por_id(self, id: UUID) -> Campaign:
-        with SessionLocal() as db:
-            campaign_dto = db.query(CampaignDTO).filter_by(id=str(id)).one()
-            return self.fabrica_campaigns.crear_objeto(campaign_dto, MapeadorCampaign())
+        campaign_dto = self.db.query(CampaignDTO).filter_by(id=str(id)).one()
+        return self.fabrica_campaigns.crear_objeto(campaign_dto, MapeadorCampaign())
 
     def obtener_todos(self) -> list[Campaign]:
-        # TODO
-        raise NotImplementedError
+        campaign_dtos = self.db.query(CampaignDTO).all()  # obtiene todos los registros
+        return [
+            self.fabrica_campaigns.crear_objeto(dto, MapeadorCampaign())
+            for dto in campaign_dtos
+        ]
 
     def agregar(self, campaign: Campaign):
         campaign_dto = self.fabrica_campaigns.crear_objeto(campaign, MapeadorCampaign())
@@ -39,6 +41,7 @@ class RepositorioCampaignsSQLAlchemy(RepositorioCampaigns):
         # TODO
         raise NotImplementedError
 
-    def eliminar(self, reserva_id: UUID):
-        # TODO
-        raise NotImplementedError
+    def eliminar(self, campaign_id: UUID):
+        campaign_dto = self.db.query(CampaignDTO).filter(CampaignDTO.id == campaign_id).first()
+        if campaign_dto:
+            self.db.delete(campaign_dto)
