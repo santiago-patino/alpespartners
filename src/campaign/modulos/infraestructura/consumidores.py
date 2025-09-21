@@ -53,14 +53,14 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                         dispatcher.send(evento=evento, signal=f'{evento.__class__.__name__}Integracion')
                         
                     elif topico == "comando-registrar-campaign":
-                        # print(f'Comando registrar: {datos}')
+                        print(f'Comando registrar: {datos}')
                         coordinador = CoordinadorCampañas()
                         coordinador.inicializar_pasos()
                         coordinador.iniciar()
                         comando = ComandoRegistrarCampaign(datos.data.nombre, datos.data.presupuesto, datos.data.divisa, datos.data.marca_id, datos.data.participantes)
                         ejecutar_commando(comando)
                     elif topico == "comando-cancelar-campaign":
-                        # print(f'Comando cancelar: {datos}')
+                        print(f'Comando cancelar: {datos}')
                         comando = ComandoCancelarCampaign(datos.data.id)
                         ejecutar_commando(comando)
                         

@@ -10,7 +10,7 @@ from partner.modulos.dominio.eventos import PartnerRegistrado, RegistroPartnerFa
 from dataclasses import dataclass, field
 from partner.modulos.infraestructura.v1 import TipoPartner
 from typing import Optional
-# from .objetos_valor import Nombre, Email, Cedula, Rut
+import uuid
 
 @dataclass
 class Partner(AgregacionRaiz):
@@ -21,6 +21,7 @@ class Partner(AgregacionRaiz):
     tipo: str = ""
     
     def crear_partner(self, partner: "Partner"):
+        self.id = str(uuid.uuid4())
         self.id_campaign = partner.id_campaign
         self.nombre = partner.nombre
         self.informacion_perfil = partner.informacion_perfil
