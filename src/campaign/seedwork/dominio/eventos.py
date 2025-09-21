@@ -10,7 +10,6 @@ class EventoDominio():
     _id: uuid.UUID = field(init=False, repr=False, hash=True)
     fecha_evento: datetime =  field(default=datetime.now())
 
-
     @classmethod
     def siguiente_id(self) -> uuid.UUID:
         return uuid.uuid4()
