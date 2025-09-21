@@ -22,3 +22,19 @@ class ComandoRegistrarEvento(ComandoIntegracion):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+class CancelarEvento(Record):
+    id = String()
+
+class ComandoCancelarEvento(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CancelarEvento")
+    datacontenttype = String()
+    service_name = String(default="partner.aeroalpes")
+    data = CancelarEvento
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

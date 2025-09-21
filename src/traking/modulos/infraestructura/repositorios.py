@@ -22,14 +22,16 @@ class RepositorioEventosSQLAlchemy(RepositorioEventos):
     def fabrica_eventos(self):
         return self._fabrica_eventos
 
-    def obtener_por_id(self, id: UUID) -> Evento:
-        with SessionLocal() as db:
-            evento_dto = db.query(EventoDTO).filter_by(id=str(id)).one()
-            return self.fabrica_eventos.crear_objeto(evento_dto, MapeadorEvento())
+    def obtener_por_id(self, evento_id: UUID) -> Evento:
+        evento_dto = self.db.query(EventoDTO).filter_by(id=str(evento_id)).one()
+        return self.fabrica_eventos.crear_objeto(evento_dto, MapeadorEvento())
 
     def obtener_todos(self) -> list[Evento]:
-        # TODO
-        raise NotImplementedError
+        evento_dtos = self.db.query(EventoDTO).all()  # obtiene todos los registros
+        return [
+            self.fabrica_eventos.crear_objeto(dto, MapeadorEvento())
+            for dto in evento_dtos
+        ]
 
     def agregar(self, evento: Evento):
         evento_dto = self.fabrica_eventos.crear_objeto(evento, MapeadorEvento())
@@ -39,6 +41,7 @@ class RepositorioEventosSQLAlchemy(RepositorioEventos):
         # TODO
         raise NotImplementedError
 
-    def eliminar(self, reserva_id: UUID):
-        # TODO
-        raise NotImplementedError
+    def eliminar(self, evento_id: UUID):
+        evento_dto = self.db.query(EventoDTO).filter(EventoDTO.id == evento_id).first()
+        if evento_dto:
+            self.db.delete(evento_dto)

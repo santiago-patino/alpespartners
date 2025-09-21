@@ -6,10 +6,14 @@ from contextlib import asynccontextmanager
 
 from traking.modulos.infraestructura.consumidores import suscribirse_a_topico
 from traking.modulos.infraestructura.v1.eventos import EventoRegistrado, EventoTraking
-from traking.modulos.infraestructura.v1.comandos import ComandoRegistrarEvento, RegistrarEvento
+from traking.modulos.infraestructura.v1.comandos import ComandoRegistrarEvento, RegistrarEvento, CancelarEvento, ComandoCancelarEvento
 from traking.modulos.infraestructura.despachadores import Despachador
+from traking.modulos.aplicacion.queries.obtener_todos_eventos import ObtenerTodosEventos
+from traking.modulos.aplicacion.queries.obtener_evento import ObtenerEvento
+from traking.seedwork.aplicacion.queries import ejecutar_query
 from traking.seedwork.infraestructura import utils
 from datetime import datetime
+from typing import Any
 
 import asyncio
 
@@ -23,9 +27,10 @@ async def lifespan(app: FastAPI):
     importar_modelos_alchemy()
     init_db()
     
-    task1 = asyncio.ensure_future(suscribirse_a_topico("evento-traking", "sub-evento", EventoTraking))
+    # task1 = asyncio.ensure_future(suscribirse_a_topico("evento-traking", "sub-evento", EventoTraking))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-registrar-evento-conversion", "sub-com-registrar-evento-conversion", ComandoRegistrarEvento))
-    tasks.extend([task1, task2])
+    task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-evento", "sub-com-cancelar-evento", ComandoCancelarEvento))
+    tasks.extend([task2, task3])
 
     yield
 
@@ -71,9 +76,43 @@ async def prueba_registrar_usuario() -> dict[str, str]:
     despachador.publicar_mensaje(comando, "comando-registrar-evento-conversion")
     return {"status": "ok"}
 
+@app.get("/prueba-cancelar-evento", include_in_schema=False)
+async def prueba_cancelar_evento() -> dict[str, str]:
+    payload = CancelarEvento(
+        id = "0bd9855c-2155-4415-9c2b-0df6ca2adf32"
+    )
+
+    comando = ComandoCancelarEvento(
+        time=utils.time_millis(),
+        ingestion=utils.time_millis(),
+        datacontenttype=CancelarEvento.__name__,
+        data = payload
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(comando, "comando-cancelar-evento")
+    return {"status": "ok"}
+
+@app.get("/eventos", include_in_schema=False)
+async def obtener_todos_events() -> Any:
+    query_resultado = ejecutar_query(ObtenerTodosEventos())
+    return query_resultado.resultado
+    try:
+        query_resultado = ejecutar_query(ObtenerTodosEventos())
+        return query_resultado.resultado
+    except Exception:
+        return {"Status": "No existe"}
+    
+@app.get("/eventos/{id}", include_in_schema=False)
+async def obtener_evento(id: str) -> Any:
+    try:
+        query_resultado = ejecutar_query(ObtenerEvento(id))
+        return query_resultado.resultado
+    except Exception:
+        return {"Status": "No existe"}
+
 @app.get("/health", include_in_schema=False)
 async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-app.include_router(v1, prefix="/v1", tags=["Version 1"])
+# app.include_router(v1, prefix="/v1", tags=["Version 1"])
