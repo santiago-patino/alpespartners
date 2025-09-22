@@ -148,3 +148,6 @@ Puede descargar el archivo json e importarlo en su postman
 ### Ejecucion Local
 [📥 Descargar colección Postman](./AlpesPartners.postman_collection.json)
 
+### Ejecucion CLOUD
+[📥 Descargar colección Postman](./AlpesPartners_Cloud.postman_collection.json)
+

@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "f92d419e-8573-4705-9d63-73901f8cbe00",
+		"name": "AlpesPartners Cloud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "10424924"
+	},
+	"item": [
+		{
+			"name": "BFF",
+			"item": [
+				{
+					"name": "Campaign",
+					"item": [
+						{
+							"name": "Obtener Campañas",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-campaigns"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Campaña por Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-campaigns/4d974c2e-7966-4db2-b034-721e8c853687"
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Campaña",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/eliminar-campaign/00248140-8d5a-45f6-b89c-65f5da446a8f"
+							},
+							"response": []
+						},
+						{
+							"name": "Registrar Campaña",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Test\",\n    \"presupuesto\": 10000,\n    \"divisa\": \"USD\",\n    \"marca_id\": \"USD\",\n    \"participantes\": [\n        {\n          \"id\": \"p-98765\",\n          \"tipo\": \"afiliado\",\n          \"nombre\": \"Alice Doe\",\n          \"informacion_perfil\": \"Influencer de moda con 200k seguidores\"\n        }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/registrar-campaign"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Partner",
+					"item": [
+						{
+							"name": "Obtener Partners",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-partners"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Partner por Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-partners/0b7924a2-9636-43f5-918c-15fa720085ce"
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Partner",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/eliminar-partner/0b7924a2-9636-43f5-918c-15fa720085ce"
+							},
+							"response": []
+						},
+						{
+							"name": "Registrar Partner",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_campaign\": \"123213312\",\n    \"nombre\": \"Test\",\n    \"tipo\": \"influencer\",\n    \"informacion_perfil\": \"Test\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/registrar-partner"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Traking",
+					"item": [
+						{
+							"name": "Obtener Eventos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-eventos"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Evento por Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-eventos/03292f03-fd36-4cfe-ab9b-078d5125f10f"
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Evento",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/eliminar-evento/7a7aaf21-5248-4bce-8c88-2ec3b1f4d20e"
+							},
+							"response": []
+						},
+						{
+							"name": "Registrar Evento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/registrar-evento"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
