@@ -24,7 +24,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-campaigns"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/obtener-campaigns"
 							},
 							"response": []
 						},
@@ -40,7 +40,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-campaigns/4d974c2e-7966-4db2-b034-721e8c853687"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/obtener-campaigns/4d974c2e-7966-4db2-b034-721e8c853687"
 							},
 							"response": []
 						},
@@ -56,7 +56,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/eliminar-campaign/00248140-8d5a-45f6-b89c-65f5da446a8f"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/eliminar-campaign/00248140-8d5a-45f6-b89c-65f5da446a8f"
 							},
 							"response": []
 						},
@@ -74,7 +74,7 @@
 										}
 									}
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/registrar-campaign"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/registrar-campaign"
 							},
 							"response": []
 						}
@@ -95,7 +95,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-partners"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/obtener-partners"
 							},
 							"response": []
 						},
@@ -111,7 +111,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-partners/0b7924a2-9636-43f5-918c-15fa720085ce"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/obtener-partners/0b7924a2-9636-43f5-918c-15fa720085ce"
 							},
 							"response": []
 						},
@@ -127,7 +127,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/eliminar-partner/0b7924a2-9636-43f5-918c-15fa720085ce"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/eliminar-partner/0b7924a2-9636-43f5-918c-15fa720085ce"
 							},
 							"response": []
 						},
@@ -145,7 +145,7 @@
 										}
 									}
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/registrar-partner"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/registrar-partner"
 							},
 							"response": []
 						}
@@ -159,7 +159,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-eventos"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/obtener-eventos"
 							},
 							"response": []
 						},
@@ -175,7 +175,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/obtener-eventos/03292f03-fd36-4cfe-ab9b-078d5125f10f"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/obtener-eventos/03292f03-fd36-4cfe-ab9b-078d5125f10f"
 							},
 							"response": []
 						},
@@ -191,7 +191,7 @@
 									"mode": "raw",
 									"raw": "{\n    \"id_partner\": \"1huhaskjhasd\",\n    \"id_campana\": \"213uhuihaujjjkjj\"\n}"
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/eliminar-evento/7a7aaf21-5248-4bce-8c88-2ec3b1f4d20e"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/eliminar-evento/7a7aaf21-5248-4bce-8c88-2ec3b1f4d20e"
 							},
 							"response": []
 						},
@@ -209,7 +209,7 @@
 										}
 									}
 								},
-								"url": "http://alpes-bff-env.eba-afswbqfz.us-east-1.elasticbeanstalk.com/registrar-evento"
+								"url": "http://alpess-bff-env.eba-bqbxaw86.us-east-1.elasticbeanstalk.com/registrar-evento"
 							},
 							"response": []
 						}
